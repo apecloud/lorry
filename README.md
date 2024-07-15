@@ -50,7 +50,7 @@ spec:
 ```
 
 ### GRPC
-正在实现中，此处先给出接入的方式（待定，可讨论）
+正在实现中，此处先给出接入的方式（待讨论）
 ```
   lifecycleActions:
     roleProbe:
