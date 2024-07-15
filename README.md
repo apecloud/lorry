@@ -2,7 +2,7 @@
 lorry是原KubeBlocks中提供命令执行通道的服务，提供了多种wellknown数据库引擎的action实现，比如apecloud-MySQL、MySQL、Redis、PostgreSQL、MongoDB等等。对于lorry已经支持的数据库引擎，在做addon接入时，可以声明lorry作为engines plugin，快速接入KubeBlocks。
 
 ## 声明engines plugin
-KubeBlocks本身对engine plugin的形态不做限制，可以以sidecarCar或container中守护进程或其它形态运行。lorry目前默认采用localhost方式与DB进程通信，所以建议使用sidecar方式部署lorry，部署模版：
+KubeBlocks本身对engine plugin的形态不做限制，可以以sidecarCar、container守护进程或其它形态运行。lorry目前默认采用localhost方式与DB进程通信，所以建议使用sidecar方式部署lorry，部署模版：
 ```
 apiVersion: v1
 kind: Pod
