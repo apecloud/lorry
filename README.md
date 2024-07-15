@@ -46,7 +46,7 @@ spec:
           command:
             - /bin/bash
             - -c
-            - curl -X GET -H 'Content-Type: application/json' 'http://127.0.0.1:3501/v1.0/checkrole'
+            - curl -X GET -H 'Content-Type: application/json' 'http://127.0.0.1:3501/v1.0/getrole'
 ```
 
 ### GRPC
