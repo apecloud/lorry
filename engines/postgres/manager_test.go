@@ -27,9 +27,9 @@ import (
 	"github.com/pashagolub/pgxmock/v2"
 	"github.com/shirou/gopsutil/v3/process"
 	"github.com/spf13/afero"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	viper "github.com/apecloud/kubeblocks/pkg/viperx"
 	"github.com/apecloud/lorry/constant"
 	"github.com/apecloud/lorry/dcs"
 	"github.com/apecloud/lorry/engines"

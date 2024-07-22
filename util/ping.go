@@ -23,9 +23,9 @@ import (
 	"net"
 	"time"
 
+	"github.com/spf13/viper"
 	ctlruntime "sigs.k8s.io/controller-runtime"
 
-	viper "github.com/apecloud/kubeblocks/pkg/viperx"
 	"github.com/apecloud/lorry/constant"
 )
 

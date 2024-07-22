@@ -23,7 +23,8 @@ import (
 	"fmt"
 	"strings"
 
-	viper "github.com/apecloud/kubeblocks/pkg/viperx"
+	"github.com/spf13/viper"
+
 	"github.com/apecloud/lorry/constant"
 	"github.com/apecloud/lorry/util"
 )

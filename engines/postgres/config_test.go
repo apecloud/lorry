@@ -22,9 +22,9 @@ package postgres
 import (
 	"testing"
 
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	viper "github.com/apecloud/kubeblocks/pkg/viperx"
 	"github.com/apecloud/lorry/constant"
 	"github.com/apecloud/lorry/dcs"
 )
