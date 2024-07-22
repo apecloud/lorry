@@ -68,6 +68,9 @@ const (
 	JoinMemberOperation  OperationKind = "joinMember"
 	LeaveMemberOperation OperationKind = "leaveMember"
 
+	DataDumpOperation OperationKind = "dataDump"
+	DataLoadOperation OperationKind = "dataLoad"
+
 	OperationNotImplemented    = "NotImplemented"
 	OperationInvalid           = "Invalid"
 	OperationSuccess           = "Success"
