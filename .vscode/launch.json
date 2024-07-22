@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}"
+        },
+        {
+            "name": "Launch lorry",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/lorry/main.go",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                // "KB_ROLECHECK_DELAY": "30", 
+                // "KB_POD_NAME": "myob-ob-bundle-0-0", 
+                // //"KB_SERVICE_PASSWORD": "", 
+                // //"KB_SERVICE_USER": "root", 
+                // //"KB_SERVICE_CHARACTER_TYPE": "mysql", 
+                // "KB_SERVICE_CHARACTER_TYPE": "oceanbase", 
+                // //"KB_WORKLOAD_TYPE": "consensus",
+                // "KB_WORKLOAD_TYPE": "",
+                // "KB_CLUSTER_NAME": "myob",
+                // "KB_COMP_NAME": "ob-bundle-0",
+                // "KB_NAMESPACE": "default",
+                // "TENANT_NAME": "alice",
+                // "KB_CLUSTER_COMP_NAME": "myob-ob-bundle-0",
+            },
+            // "args": ["--app-id","batch-sdk", "--dapr-http-port", "3502","--dapr-grpc-port","54212",
+            // "--components-path","./config/probe/components","--config","./config/probe/config.yaml","--dapr-graceful-shutdown-seconds","0","--log-level=debug"]
+            "args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "getrole"]
+        },
+
+    ]
+}

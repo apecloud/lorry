@@ -21,10 +21,7 @@ package main
 
 import (
 	"flag"
-	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
@@ -35,6 +32,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	kzap "sigs.k8s.io/controller-runtime/pkg/log/zap"
 
+	"github.com/apecloud/lorry/ctl"
 	"github.com/apecloud/lorry/dcs"
 	"github.com/apecloud/lorry/engines/register"
 )
@@ -84,7 +82,5 @@ func main() {
 		panic(errors.Wrap(err, "DB manager initialize failed"))
 	}
 
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, syscall.SIGTERM, os.Interrupt)
-	<-stop
+	ctl.Execute("", "")
 }
