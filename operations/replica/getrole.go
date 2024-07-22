@@ -21,14 +21,11 @@ package replica
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/spf13/viper"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/constant"
 	"github.com/apecloud/lorry/dcs"
 	"github.com/apecloud/lorry/engines"
 	"github.com/apecloud/lorry/engines/register"
@@ -40,7 +37,7 @@ type GetRole struct {
 	operations.Base
 	dcsStore  dcs.DCS
 	dbManager engines.DBManager
-	logger    logr.Logger
+	Logger    logr.Logger
 }
 
 var getrole operations.Operation = &GetRole{}
@@ -58,21 +55,7 @@ func (s *GetRole) Init(ctx context.Context) error {
 		return errors.New("dcs store init failed")
 	}
 
-	s.logger = ctrl.Log.WithName("getrole")
-
-	actionJSON := viper.GetString(constant.KBEnvActionCommands)
-	if actionJSON != "" {
-		actionCommands := map[string][]string{}
-		err := json.Unmarshal([]byte(actionJSON), &actionCommands)
-		if err != nil {
-			s.logger.Info("get action commands failed", "error", err.Error())
-			return err
-		}
-		roleProbeCmd, ok := actionCommands[constant.RoleProbeAction]
-		if ok && len(roleProbeCmd) > 0 {
-			s.Command = roleProbeCmd
-		}
-	}
+	s.Logger = ctrl.Log.WithName("getrole")
 	dbManager, err := register.GetDBManager()
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
@@ -95,7 +78,7 @@ func (s *GetRole) Do(ctx context.Context, req *operations.OpsRequest) (*operatio
 	cluster := s.dcsStore.GetClusterFromCache()
 	role, err := s.dbManager.GetReplicaRole(ctx, cluster)
 	if err != nil {
-		s.logger.Info("executing getrole error", "error", err)
+		s.Logger.Info("executing getrole error", "error", err)
 		return resp, err
 	}
 

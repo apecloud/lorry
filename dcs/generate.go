@@ -19,4 +19,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package dcs
 
-//go:generate go run github.com/golang/mock/mockgen -copyright_file ../../../hack/boilerplate.go.txt -package dcs -destination dcs_mock.go github.com/apecloud/kubeblocks/pkg/lorry/dcs DCS
+//go:generate go run github.com/golang/mock/mockgen -copyright_file ../../../hack/boilerplate.go.txt -package dcs -destination dcs_mock.go github.com/apecloud/lorry/dcs DCS

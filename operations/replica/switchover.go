@@ -26,10 +26,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/dcs"
-	"github.com/apecloud/kubeblocks/pkg/lorry/engines/register"
-	"github.com/apecloud/kubeblocks/pkg/lorry/operations"
-	"github.com/apecloud/kubeblocks/pkg/lorry/util"
+	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/lorry/engines/register"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/util"
 )
 
 type Switchover struct {
@@ -71,7 +71,7 @@ func (s *Switchover) PreCheck(ctx context.Context, req *operations.OpsRequest) e
 		return errors.Wrap(err, "get cluster failed")
 	}
 
-	manager, err := register.GetDBManager(nil)
+	manager, err := register.GetDBManager()
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
 	}

@@ -26,10 +26,10 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/engines"
-	"github.com/apecloud/kubeblocks/pkg/lorry/engines/register"
-	"github.com/apecloud/kubeblocks/pkg/lorry/operations"
-	"github.com/apecloud/kubeblocks/pkg/lorry/util"
+	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/lorry/engines/register"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/util"
 )
 
 type Query struct {
@@ -48,7 +48,7 @@ func init() {
 }
 
 func (s *Query) Init(context.Context) error {
-	dbManager, err := register.GetDBManager(nil)
+	dbManager, err := register.GetDBManager()
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
 	}

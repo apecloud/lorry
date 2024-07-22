@@ -21,19 +21,16 @@ package replica
 
 import (
 	"context"
-	"encoding/json"
 	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/spf13/viper"
 
-	"github.com/apecloud/kubeblocks/pkg/constant"
-	"github.com/apecloud/kubeblocks/pkg/lorry/dcs"
-	"github.com/apecloud/kubeblocks/pkg/lorry/engines/register"
-	"github.com/apecloud/kubeblocks/pkg/lorry/operations"
-	"github.com/apecloud/kubeblocks/pkg/lorry/util"
+	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/lorry/engines/register"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/util"
 )
 
 type Join struct {
@@ -59,24 +56,11 @@ func (s *Join) Init(ctx context.Context) error {
 		return errors.New("dcs store init failed")
 	}
 
-	actionJSON := viper.GetString(constant.KBEnvActionCommands)
-	if actionJSON != "" {
-		actionCommands := map[string][]string{}
-		err := json.Unmarshal([]byte(actionJSON), &actionCommands)
-		if err != nil {
-			s.logger.Info("get action commands failed", "error", err.Error())
-			return err
-		}
-		memberJoinCmd, ok := actionCommands[constant.MemberJoinAction]
-		if ok && len(memberJoinCmd) > 0 {
-			s.Command = memberJoinCmd
-		}
-	}
 	return nil
 }
 
 func (s *Join) Do(ctx context.Context, req *operations.OpsRequest) (*operations.OpsResponse, error) {
-	manager, err := register.GetDBManager(s.Command)
+	manager, err := register.GetDBManager()
 	if err != nil {
 		return nil, errors.Wrap(err, "get manager failed")
 	}

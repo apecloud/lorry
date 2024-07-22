@@ -21,15 +21,12 @@ package replica
 
 import (
 	"context"
-	"encoding/json"
 	"strings"
 
 	"github.com/go-logr/logr"
-	"github.com/spf13/viper"
 
-	"github.com/apecloud/kubeblocks/pkg/constant"
-	"github.com/apecloud/kubeblocks/pkg/lorry/operations"
-	"github.com/apecloud/kubeblocks/pkg/lorry/util"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/util"
 )
 
 type dataDump struct {
@@ -43,27 +40,6 @@ func init() {
 	if err != nil {
 		panic(err.Error())
 	}
-}
-
-func (s *dataDump) Init(_ context.Context) error {
-	actionJSON := viper.GetString(constant.KBEnvActionCommands)
-	if actionJSON != "" {
-		actionCommands := map[string][]string{}
-		err := json.Unmarshal([]byte(actionJSON), &actionCommands)
-		if err != nil {
-			s.logger.Info("get action commands failed", "error", err.Error())
-			return err
-		}
-		cmd, ok := actionCommands[constant.DataDumpAction]
-		if ok && len(cmd) > 0 {
-			s.Command = cmd
-		}
-	}
-	return nil
-}
-
-func (s *dataDump) PreCheck(ctx context.Context, req *operations.OpsRequest) error {
-	return nil
 }
 
 func (s *dataDump) Do(ctx context.Context, req *operations.OpsRequest) (*operations.OpsResponse, error) {
