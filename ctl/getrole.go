@@ -22,47 +22,67 @@ package ctl
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/replica"
 )
 
 type GetRoleOptions struct {
-	lorryAddr string
-	userName  string
-	password  string
 }
 
-var getRoleOptions = &GetRoleOptions{}
-
 var GetRoleCmd = &cobra.Command{
-	Use:   "createuser",
-	Short: "create user.",
+	Use:   "getrole",
+	Short: "get role of the replica.",
 	Example: `
-lorryctl  createuser --username xxx --password xxx 
+lorry getrole 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(getRoleOptions.lorryAddr)
+		options := operations.Operations()
+
+		option, ok := options["getrole"]
+		if !ok {
+			fmt.Printf("getrole operation not found")
+			os.Exit(1)
+		}
+		err := option.Init(context.Background())
 		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
+			fmt.Printf("getrole init failed: %v\n", err)
+			os.Exit(1)
 		}
 
-		err = lorryClient.CreateUser(context.TODO(), getRoleOptions.userName, getRoleOptions.password, "")
+		err = option.PreCheck(context.Background(), nil)
 		if err != nil {
-			fmt.Printf("create user failed: %v\n", err)
-			return
+			fmt.Printf("getrole precheck failed: %v\n", err)
+			os.Exit(1)
 		}
-		fmt.Printf("create user success")
+
+		getRole, ok := option.(*replica.GetRole)
+		if !ok {
+			fmt.Printf("getrole operation not found")
+			os.Exit(1)
+		}
+
+		cluster, err := getRole.DCSStore.GetCluster()
+		if err != nil {
+			fmt.Printf("executing getrole failed: %s\n", err.Error())
+			os.Exit(1)
+		}
+
+		role, err := getRole.DBManager.GetReplicaRole(context.Background(), cluster)
+		if err != nil {
+			fmt.Printf("executing getrole failed: %s\n", err.Error())
+			os.Exit(1)
+		}
+
+		fmt.Print(role)
 	},
 }
 
 func init() {
-	GetRoleCmd.Flags().StringVarP(&getRoleOptions.userName, "username", "", "", "The name of user to create")
-	GetRoleCmd.Flags().StringVarP(&getRoleOptions.password, "password", "", "", "The password of user to create")
-	GetRoleCmd.Flags().StringVarP(&getRoleOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	GetRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(GetRoleCmd)

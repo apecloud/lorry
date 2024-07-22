@@ -22,7 +22,6 @@ package replica
 import (
 	"context"
 
-	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -35,9 +34,8 @@ import (
 
 type GetRole struct {
 	operations.Base
-	dcsStore  dcs.DCS
-	dbManager engines.DBManager
-	Logger    logr.Logger
+	DCSStore  dcs.DCS
+	DBManager engines.DBManager
 }
 
 var getrole operations.Operation = &GetRole{}
@@ -50,8 +48,8 @@ func init() {
 }
 
 func (s *GetRole) Init(ctx context.Context) error {
-	s.dcsStore = dcs.GetStore()
-	if s.dcsStore == nil {
+	s.DCSStore = dcs.GetStore()
+	if s.DCSStore == nil {
 		return errors.New("dcs store init failed")
 	}
 
@@ -61,7 +59,7 @@ func (s *GetRole) Init(ctx context.Context) error {
 		return errors.Wrap(err, "get manager failed")
 	}
 
-	s.dbManager = dbManager
+	s.DBManager = dbManager
 	return nil
 }
 
@@ -75,8 +73,8 @@ func (s *GetRole) Do(ctx context.Context, req *operations.OpsRequest) (*operatio
 	}
 	resp.Data["operation"] = util.GetRoleOperation
 
-	cluster := s.dcsStore.GetClusterFromCache()
-	role, err := s.dbManager.GetReplicaRole(ctx, cluster)
+	cluster := s.DCSStore.GetClusterFromCache()
+	role, err := s.DBManager.GetReplicaRole(ctx, cluster)
 	if err != nil {
 		s.Logger.Info("executing getrole error", "error", err)
 		return resp, err

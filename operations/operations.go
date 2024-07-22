@@ -55,6 +55,10 @@ func Register(name string, op Operation) error {
 	return ops.Register(name, op)
 }
 
+func Get(name string) Operation {
+	return ops.Operations()[name]
+}
+
 func Operations() map[string]Operation {
 	return ops.Operations()
 }
