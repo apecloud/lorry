@@ -20,28 +20,74 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package ctl
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"k8s.io/klog/v2"
+	ctrl "sigs.k8s.io/controller-runtime"
+	kzap "sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/lorry/engines/register"
 )
 
 const cliVersionTemplateString = "CLI version: %s \nRuntime version: %s\n"
 
+var configDir string
+var disableDNSChecker bool
+var opts = kzap.Options{
+	Development: true,
+	Level:       zap.NewAtomicLevelAt(zap.DPanicLevel),
+}
+
 var RootCmd = &cobra.Command{
-	Use:   "lorryctl",
-	Short: "LORRY CLI",
+	Use:   "lorry",
+	Short: "Lorry command line interface",
 	Long: `
-   / /   ____  ____________  __   / ____/ /______/ /
-  / /   / __ \/ ___/ ___/ / / /  / /   / __/ ___/ / 
- / /___/ /_/ / /  / /  / /_/ /  / /___/ /_/ /  / /  
-/_____/\____/_/  /_/   \__, /   \____/\__/_/  /_/   
-                      /____/                        
+ _      ____  _____  _______     __
+ | |    / __ \|  __ \|  __ \ \   / /
+ | |   | |  | | |__) | |__) \ \_/ / 
+ | |   | |  | |  _  /|  _  / \   /  
+ | |___| |__| | | \ \| | \ \  | |   
+ |______\____/|_|  \_\_|  \_\ |_|  
 ===============================
-Lorry service client`,
+Lorry command line interface`,
+	PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
+		err := viper.BindPFlags(pflag.CommandLine)
+		if err != nil {
+			return errors.Wrap(err, "fatal error viper bindPFlags")
+		}
+
+		// Initialize logger
+		kopts := []kzap.Opts{kzap.UseFlagOptions(&opts)}
+		if strings.EqualFold("debug", viper.GetString("zap-log-level")) {
+			kopts = append(kopts, kzap.RawZapOpts(zap.AddCaller()))
+		}
+		ctrl.SetLogger(kzap.New(kopts...))
+
+		// Initialize DCS (Distributed Control System)
+		err = dcs.InitStore()
+		if err != nil {
+			return errors.Wrap(err, "DCS initialize failed")
+		}
+
+		// Initialize DB Manager
+		err = register.InitDBManager(configDir)
+		if err != nil {
+			return errors.Wrap(err, "DB manager initialize failed")
+		}
+		return nil
+	},
+
 	Run: func(cmd *cobra.Command, _ []string) {
 		if versionFlag {
 			printVersion()
@@ -101,7 +147,13 @@ func initConfig() {
 }
 
 func init() {
+	klog.InitFlags(flag.CommandLine)
+	opts.BindFlags(flag.CommandLine)
+	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
+	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/config/lorry/components/", "Lorry default config directory for builtin type")
+	RootCmd.PersistentFlags().BoolVar(&disableDNSChecker, "disable-dns-checker", false, "disable dns checker, for test&dev")
 	RootCmd.PersistentFlags().StringVarP(&lorryRuntimePath, "kb-runtime-dir", "", "/kubeblocks/", "The directory of kubeblocks binaries")
+	RootCmd.PersistentFlags().AddFlagSet(pflag.CommandLine)
 }
 
 // GetRuntimeVersion returns the version for the local lorry runtime.

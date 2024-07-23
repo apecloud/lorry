@@ -71,21 +71,20 @@ var switchoverOptions = &SwitchOptions{
 	},
 }
 
-var switchOptions = &SwitchOptions{}
 var SwitchCmd = &cobra.Command{
 	Use:   "switchover",
 	Short: "execute a switchover request.",
 	Example: `
-lorryctl switchover  --primary xxx --candidate xxx
+lorry switchover --primary xxx --candidate xxx
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(switchoverOptions),
 }
 
 func init() {
-	SwitchCmd.Flags().StringVarP(&switchOptions.primary, "primary", "p", "", "The primary pod name")
-	SwitchCmd.Flags().StringVarP(&switchOptions.candidate, "candidate", "c", "", "The candidate pod name")
-	SwitchCmd.Flags().BoolVarP(&switchOptions.force, "force", "f", false, "force to swithover if failed")
+	SwitchCmd.Flags().StringVarP(&switchoverOptions.primary, "primary", "p", "", "The primary pod name")
+	SwitchCmd.Flags().StringVarP(&switchoverOptions.candidate, "candidate", "c", "", "The candidate pod name")
+	SwitchCmd.Flags().BoolVarP(&switchoverOptions.force, "force", "f", false, "force to swithover if failed")
 	SwitchCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(SwitchCmd)

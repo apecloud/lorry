@@ -6,5 +6,8 @@
         },
         "fs": "read",
         "env": true
+    },
+    "agent": {
+        "image": "registry.cn-hangzhou.aliyuncs.com/xuriwuyun/mirrord:3.111.0"
     }
 }

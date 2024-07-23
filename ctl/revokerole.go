@@ -62,7 +62,7 @@ var RevokeUserRoleCmd = &cobra.Command{
 	Use:   "revoke-role",
 	Short: "revoke user role.",
 	Example: `
-lorryctl  revoke-role --username xxx --rolename xxx 
+lorry revoke-role --username xxx --rolename xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(revokeUserRoleOptions),

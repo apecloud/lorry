@@ -72,7 +72,7 @@ var GrantUserRoleCmd = &cobra.Command{
 	Use:   "grant-role",
 	Short: "grant user role.",
 	Example: `
-lorryctl  grant-role --username xxx --rolename xxx 
+lorry grant-role --username xxx --rolename xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(grantUserRoleOptions),
