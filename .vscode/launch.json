@@ -35,7 +35,7 @@
             },
             // "args": ["--app-id","batch-sdk", "--dapr-http-port", "3502","--dapr-grpc-port","54212",
             // "--components-path","./config/probe/components","--config","./config/probe/config.yaml","--dapr-graceful-shutdown-seconds","0","--log-level=debug"]
-            "args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "service"]
+            "args": ["--config-path", "./config/lorry/components",  "getrole"]
         },
 
     ]

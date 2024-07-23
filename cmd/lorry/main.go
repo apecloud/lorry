@@ -55,6 +55,7 @@ func main() {
 	// Initialize flags
 	opts := kzap.Options{
 		Development: true,
+		Level:       zap.NewAtomicLevelAt(zap.DPanicLevel),
 	}
 	opts.BindFlags(flag.CommandLine)
 	klog.InitFlags(nil)
