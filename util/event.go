@@ -27,6 +27,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/spf13/viper"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -36,7 +37,6 @@ import (
 
 	workloads "github.com/apecloud/kubeblocks/apis/workloads/v1alpha1"
 	"github.com/apecloud/lorry/constant"
-	"github.com/spf13/viper"
 )
 
 var logger = ctlruntime.Log.WithName("event")

@@ -27,7 +27,6 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 const cliVersionTemplateString = "CLI version: %s \nRuntime version: %s\n"
@@ -99,10 +98,6 @@ func initConfig() {
 		CliVersion:     cliVersion,
 		RuntimeVersion: strings.ReplaceAll(runtimeVer, "\n", ""),
 	}
-
-	viper.SetEnvPrefix("lorry")
-	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
-	viper.AutomaticEnv()
 }
 
 func init() {
