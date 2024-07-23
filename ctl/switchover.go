@@ -21,19 +21,54 @@ package ctl
 
 import (
 	"context"
-	"fmt"
-	"time"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/kubeblocks/pkg/lorry/util"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/replica"
 )
 
 type SwitchOptions struct {
+	OptionsBase
 	primary   string
 	candidate string
-	lorryAddr string
 	force     bool
+}
+
+func (options *SwitchOptions) Validate() error {
+	params := map[string]interface{}{}
+	if options.primary != "" {
+		params["primary"] = options.primary
+	}
+	if options.candidate != "" {
+		params["candidate"] = options.candidate
+	}
+	req := &operations.OpsRequest{
+		Parameters: params,
+	}
+	options.Request = req
+	return options.Operation.PreCheck(context.Background(), req)
+}
+
+func (options *SwitchOptions) Run() error {
+	switchover, ok := options.Operation.(*replica.Switchover)
+	if !ok {
+		return errors.Errorf("%s operation not found", options.Action)
+	}
+
+	_, err := switchover.Do(context.Background(), options.Request)
+	if err != nil {
+		return errors.Wrap(err, "executing switchover failed")
+	}
+	return nil
+}
+
+var switchoverOptions = &SwitchOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.SwitchoverOperation),
+	},
 }
 
 var switchOptions = &SwitchOptions{}
@@ -44,33 +79,13 @@ var SwitchCmd = &cobra.Command{
 lorryctl switchover  --primary xxx --candidate xxx
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		if switchOptions.primary == "" && switchOptions.candidate == "" {
-			fmt.Println("Primary or Candidate must be specified")
-			return
-		}
-
-		lorryClient, err := client.NewHTTPClientWithURL(switchOptions.lorryAddr)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		lorryClient.ReconcileTimeout = 30 * time.Second
-		err = lorryClient.Switchover(context.TODO(), switchOptions.primary, switchOptions.candidate, switchOptions.force)
-		if err != nil {
-			fmt.Printf("switchover failed: %v\n", err)
-			return
-		}
-		fmt.Printf("switchover success\n")
-	},
+	Run:  CmdRunner(switchoverOptions),
 }
 
 func init() {
 	SwitchCmd.Flags().StringVarP(&switchOptions.primary, "primary", "p", "", "The primary pod name")
 	SwitchCmd.Flags().StringVarP(&switchOptions.candidate, "candidate", "c", "", "The candidate pod name")
 	SwitchCmd.Flags().BoolVarP(&switchOptions.force, "force", "f", false, "force to swithover if failed")
-	SwitchCmd.Flags().StringVarP(&switchOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	SwitchCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(SwitchCmd)
