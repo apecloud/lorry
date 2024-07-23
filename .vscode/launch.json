@@ -36,7 +36,9 @@
             // "args": ["--app-id","batch-sdk", "--dapr-http-port", "3502","--dapr-grpc-port","54212",
             // "--components-path","./config/probe/components","--config","./config/probe/config.yaml","--dapr-graceful-shutdown-seconds","0","--log-level=debug"]
             // "args": ["--config-path", "./config/lorry/components",  "service"]
-            "args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "switchover", "--primary", "mongo3-mongodb-0"]
+            //"args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "leavemember"]
+            "args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "joinmember"]
+            //"args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "switchover", "--primary", "mongo2-mongodb-2"]
         },
 
     ]

@@ -23,6 +23,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -47,9 +48,9 @@ type OptionsBase struct {
 func (options *OptionsBase) Init() error {
 	ops := operations.Operations()
 
-	operation, ok := ops[options.Action]
+	operation, ok := ops[strings.ToLower(options.Action)]
 	if !ok {
-		return errors.New("getrole operation not found")
+		return errors.New(options.Action + " operation not found")
 	}
 	err := operation.Init(context.Background())
 	if err != nil {
