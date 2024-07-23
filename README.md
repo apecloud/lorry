@@ -14,7 +14,7 @@ spec:
     image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-server:8.0.30
     ...
   - name: lorry
-    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:1.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/xuriwuyun/lorry:latest
     command:
     - lorry
     - service
