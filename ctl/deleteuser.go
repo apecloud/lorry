@@ -21,19 +21,49 @@ package ctl
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
 type DeleteUserOptions struct {
-	lorryAddr string
-	userName  string
+	OptionsBase
+	userName string
 }
 
-var deleteUserOptions = &DeleteUserOptions{}
+func (options *DeleteUserOptions) Validate() error {
+	parameters := map[string]any{
+		"userName": options.userName,
+	}
+	req := &operations.OpsRequest{
+		Parameters: parameters,
+	}
+	options.Request = req
+	return options.Operation.PreCheck(context.Background(), req)
+}
+
+func (options *DeleteUserOptions) Run() error {
+	deleteUser, ok := options.Operation.(*user.DeleteUser)
+	if !ok {
+		return errors.New("createUser operation not found")
+	}
+
+	_, err := deleteUser.Do(context.Background(), options.Request)
+	if err != nil {
+		return errors.Wrap(err, "executing deleteUser failed")
+	}
+	return nil
+}
+
+var deleteUserOptions = &DeleteUserOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.DeleteUserOp),
+	},
+}
 
 var DeleteUserCmd = &cobra.Command{
 	Use:   "deleteuser",
@@ -42,25 +72,11 @@ var DeleteUserCmd = &cobra.Command{
 lorryctl  deleteuser --username xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(deleteUserOptions.lorryAddr)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		err = lorryClient.DeleteUser(context.TODO(), deleteUserOptions.userName)
-		if err != nil {
-			fmt.Printf("delete user failed: %v\n", err)
-			return
-		}
-		fmt.Printf("delete user success")
-	},
+	Run:  CmdRunner(deleteUserOptions),
 }
 
 func init() {
 	DeleteUserCmd.Flags().StringVarP(&deleteUserOptions.userName, "username", "", "", "The name of user to delete")
-	DeleteUserCmd.Flags().StringVarP(&deleteUserOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	DeleteUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(DeleteUserCmd)

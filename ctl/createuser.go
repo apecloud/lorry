@@ -54,7 +54,7 @@ func (options *CreateUserOptions) Validate() error {
 }
 
 func (options *CreateUserOptions) Run() error {
-	createUser, ok := createUserOptions.Operation.(*user.CreateUser)
+	createUser, ok := options.Operation.(*user.CreateUser)
 	if !ok {
 		return errors.New("createUser operation not found")
 	}

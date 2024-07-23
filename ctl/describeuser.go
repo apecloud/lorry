@@ -21,19 +21,50 @@ package ctl
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
 type DescribeUserOptions struct {
-	lorryAddr string
-	userName  string
+	OptionsBase
+	userName string
 }
 
-var describeUserOptions = &DescribeUserOptions{}
+func (options *DescribeUserOptions) Validate() error {
+	parameters := map[string]any{
+		"userName": options.userName,
+	}
+
+	req := &operations.OpsRequest{
+		Parameters: parameters,
+	}
+	options.Request = req
+	return options.Operation.PreCheck(context.Background(), req)
+}
+
+func (options *DescribeUserOptions) Run() error {
+	describeUser, ok := options.Operation.(*user.DescribeUser)
+	if !ok {
+		return errors.New("describeUser operation not found")
+	}
+
+	_, err := describeUser.Do(context.Background(), options.Request)
+	if err != nil {
+		return errors.Wrap(err, "executing describeUser failed")
+	}
+	return nil
+}
+
+var describeUserOptions = &DescribeUserOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.DescribeUserOp),
+	},
+}
 
 var DescribeUserCmd = &cobra.Command{
 	Use:   "describeuser",
@@ -42,28 +73,11 @@ var DescribeUserCmd = &cobra.Command{
 lorryctl  describeuser --username xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(describeUserOptions.lorryAddr)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		user, err := lorryClient.DescribeUser(context.TODO(), describeUserOptions.userName)
-		if err != nil {
-			fmt.Printf("describe user failed: %v\n", err)
-			return
-		}
-		fmt.Println("describe user success:")
-		for k, v := range user {
-			fmt.Printf("%s: %v\n", k, v)
-		}
-	},
+	Run:  CmdRunner(describeUserOptions),
 }
 
 func init() {
 	DescribeUserCmd.Flags().StringVarP(&describeUserOptions.userName, "username", "", "", "The name of user to describe")
-	DescribeUserCmd.Flags().StringVarP(&describeUserOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	DescribeUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(DescribeUserCmd)
