@@ -17,41 +17,21 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package ctl
+package httpserver
 
 import (
-	"context"
-
-	"github.com/pkg/errors"
-
-	"github.com/apecloud/lorry/operations"
+	"github.com/valyala/fasthttp"
 )
 
-// Options represents the cmd configuration parameters.
-type Options struct {
-	Action string
-	operations.Operation
+type Endpoint struct {
+	Method    string
+	Route     string
+	Version   string
+	Duplicate string
+	Handler   fasthttp.RequestHandler
 }
 
-func (options *Options) Init() error {
-	ops := operations.Operations()
-
-	operation, ok := ops[options.Action]
-	if !ok {
-		return errors.New("getrole operation not found")
-	}
-	err := operation.Init(context.Background())
-	if err != nil {
-		return errors.Wrap(err, "getrole init failed")
-	}
-	options.Operation = operation
-	return nil
-}
-
-func (options *Options) Validate() error {
-	return options.PreCheck(context.Background(), nil)
-}
-
-func (options *Options) Run() error {
-	return nil
+type Request struct {
+	Data       interface{}    `json:"data,omitempty"`
+	Parameters map[string]any `json:"parameters,omitempty"`
 }

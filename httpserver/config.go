@@ -17,41 +17,27 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package ctl
+package httpserver
 
 import (
-	"context"
-
-	"github.com/pkg/errors"
-
-	"github.com/apecloud/lorry/operations"
+	"github.com/spf13/pflag"
+	ctrl "sigs.k8s.io/controller-runtime"
 )
 
-// Options represents the cmd configuration parameters.
-type Options struct {
-	Action string
-	operations.Operation
+type Config struct {
+	Port               int
+	Address            string
+	MaxRequestBodySize int
+	UnixDomainSocket   string
+	ReadBufferSize     int
+	APILogging         bool
 }
 
-func (options *Options) Init() error {
-	ops := operations.Operations()
+var config Config
+var logger = ctrl.Log.WithName("HTTPServer")
 
-	operation, ok := ops[options.Action]
-	if !ok {
-		return errors.New("getrole operation not found")
-	}
-	err := operation.Init(context.Background())
-	if err != nil {
-		return errors.Wrap(err, "getrole init failed")
-	}
-	options.Operation = operation
-	return nil
-}
-
-func (options *Options) Validate() error {
-	return options.PreCheck(context.Background(), nil)
-}
-
-func (options *Options) Run() error {
-	return nil
+func InitFlags(fs *pflag.FlagSet) {
+	fs.IntVar(&config.Port, "port", 3501, "The HTTP Server listen port for Lorry service.")
+	fs.StringVar(&config.Address, "address", "0.0.0.0", "The HTTP Server listen address for Lorry service.")
+	fs.BoolVar(&config.APILogging, "api-logging", true, "Enable api logging for Lorry request.")
 }

@@ -24,13 +24,40 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations"
 	"github.com/apecloud/lorry/operations/replica"
 )
 
 type GetRoleOptions struct {
+	Options
+}
+
+func (options *GetRoleOptions) Run() error {
+	getRole, ok := getRoleOptions.Operation.(*replica.GetRole)
+	if !ok {
+		return errors.New("getrole operation not found")
+
+	}
+
+	cluster, err := getRole.DCSStore.GetCluster()
+	if err != nil {
+		return errors.Wrap(err, "get cluster failed")
+	}
+
+	role, err := getRole.DBManager.GetReplicaRole(context.Background(), cluster)
+	if err != nil {
+		return errors.Wrap(err, "executing getrole failed")
+	}
+	fmt.Print(role)
+	return nil
+}
+
+var getRoleOptions = &GetRoleOptions{
+	Options: Options{
+		Action: "getrole",
+	},
 }
 
 var GetRoleCmd = &cobra.Command{
@@ -41,44 +68,23 @@ lorry getrole
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		options := operations.Operations()
-
-		option, ok := options["getrole"]
-		if !ok {
-			fmt.Printf("getrole operation not found")
-			os.Exit(1)
-		}
-		err := option.Init(context.Background())
+		err := getRoleOptions.Init()
 		if err != nil {
-			fmt.Printf("getrole init failed: %v\n", err)
+			fmt.Printf("getrole init failed: %v\n", err.Error())
 			os.Exit(1)
 		}
 
-		err = option.PreCheck(context.Background(), nil)
+		err = getRoleOptions.Validate()
 		if err != nil {
-			fmt.Printf("getrole precheck failed: %v\n", err)
+			fmt.Printf("getrole validate failed: %v\n", err.Error())
 			os.Exit(1)
 		}
 
-		getRole, ok := option.(*replica.GetRole)
-		if !ok {
-			fmt.Printf("getrole operation not found")
-			os.Exit(1)
-		}
-
-		cluster, err := getRole.DCSStore.GetCluster()
+		err = getRoleOptions.Run()
 		if err != nil {
 			fmt.Printf("executing getrole failed: %s\n", err.Error())
 			os.Exit(1)
 		}
-
-		role, err := getRole.DBManager.GetReplicaRole(context.Background(), cluster)
-		if err != nil {
-			fmt.Printf("executing getrole failed: %s\n", err.Error())
-			os.Exit(1)
-		}
-
-		fmt.Print(role)
 	},
 }
 

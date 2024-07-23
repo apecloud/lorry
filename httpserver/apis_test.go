@@ -17,41 +17,32 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package ctl
+package httpserver
 
 import (
 	"context"
+	"fmt"
+	"testing"
 
-	"github.com/pkg/errors"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/apecloud/lorry/operations"
 )
 
-// Options represents the cmd configuration parameters.
-type Options struct {
-	Action string
-	operations.Operation
-}
-
-func (options *Options) Init() error {
-	ops := operations.Operations()
-
-	operation, ok := ops[options.Action]
-	if !ok {
-		return errors.New("getrole operation not found")
+func TestRegisterOperations(t *testing.T) {
+	fakeAPI := &api{}
+	fakeOps := map[string]operations.Operation{
+		"fake-1": operations.NewFakeOperations(operations.FakeInit, func(ctx context.Context) error {
+			return fmt.Errorf("some error")
+		}),
+		"fake-2": operations.NewFakeOperations(operations.FakeIsReadOnly, func(ctx context.Context) bool {
+			return true
+		}),
+		"fake-3": operations.NewFakeOperations(operations.FakeDefault, nil),
 	}
-	err := operation.Init(context.Background())
-	if err != nil {
-		return errors.Wrap(err, "getrole init failed")
-	}
-	options.Operation = operation
-	return nil
-}
 
-func (options *Options) Validate() error {
-	return options.PreCheck(context.Background(), nil)
-}
-
-func (options *Options) Run() error {
-	return nil
+	fakeAPI.RegisterOperations(fakeOps)
+	assert.True(t, fakeAPI.ready)
+	assert.Equal(t, 2, len(fakeAPI.endpoints))
+	assert.Equal(t, "v1.0", fakeAPI.endpoints[0].Version)
 }
