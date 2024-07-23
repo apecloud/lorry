@@ -29,7 +29,8 @@ import (
 
 // Options represents the cmd configuration parameters.
 type Options struct {
-	Action string
+	Action  string
+	Request *operations.OpsRequest
 	operations.Operation
 }
 

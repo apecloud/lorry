@@ -36,7 +36,7 @@ import (
 
 type CreateUser struct {
 	operations.Base
-	dbManager engines.DBManager
+	DBManager engines.DBManager
 	logger    logr.Logger
 }
 
@@ -54,7 +54,7 @@ func (s *CreateUser) Init(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
 	}
-	s.dbManager = dbManager
+	s.DBManager = dbManager
 	s.logger = ctrl.Log.WithName("CreateUser")
 	return nil
 }
@@ -76,13 +76,13 @@ func (s *CreateUser) Do(ctx context.Context, req *operations.OpsRequest) (*opera
 	userInfo, _ := UserInfoParser(req)
 	resp := operations.NewOpsResponse(util.CreateUserOp)
 
-	user, err := s.dbManager.DescribeUser(ctx, userInfo.UserName)
+	user, err := s.DBManager.DescribeUser(ctx, userInfo.UserName)
 	if err == nil && user != nil {
 		return resp.WithSuccess("account already exists")
 	}
 
 	// for compatibility with old addons that specify accoutprovision action but not work actually.
-	err = s.dbManager.CreateUser(ctx, userInfo.UserName, userInfo.Password)
+	err = s.DBManager.CreateUser(ctx, userInfo.UserName, userInfo.Password)
 	if err != nil {
 		err = errors.Cause(err)
 		s.logger.Info("executing CreateUser error", "error", err.Error())
@@ -90,7 +90,7 @@ func (s *CreateUser) Do(ctx context.Context, req *operations.OpsRequest) (*opera
 	}
 
 	if userInfo.RoleName != "" {
-		err := s.dbManager.GrantUserRole(ctx, userInfo.UserName, userInfo.RoleName)
+		err := s.DBManager.GrantUserRole(ctx, userInfo.UserName, userInfo.RoleName)
 		if err != nil && err != models.ErrNotImplemented {
 			s.logger.Info("executing grantRole error", "error", err.Error())
 			return resp, err

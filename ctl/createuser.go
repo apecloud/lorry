@@ -22,19 +22,57 @@ package ctl
 import (
 	"context"
 	"fmt"
+	"os"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
 type CreateUserOptions struct {
-	lorryAddr string
-	userName  string
-	password  string
+	Options
+	userName string
+	password string
+	roleName string
 }
 
-var createUserOptions = &CreateUserOptions{}
+func (options *CreateUserOptions) Validate() error {
+	parameters := map[string]any{
+		"userName": options.userName,
+		"password": options.password,
+	}
+	if options.roleName != "" {
+		parameters["roleName"] = options.roleName
+	}
+
+	req := &operations.OpsRequest{
+		Parameters: parameters,
+	}
+	options.Request = req
+	return options.Operation.PreCheck(context.Background(), req)
+}
+
+func (options *CreateUserOptions) Run() error {
+	createUser, ok := createUserOptions.Operation.(*user.CreateUser)
+	if !ok {
+		return errors.New("createUser operation not found")
+	}
+
+	_, err := createUser.Do(context.Background(), options.Request)
+	if err != nil {
+		return errors.Wrap(err, "executing createUser failed")
+	}
+	return nil
+}
+
+var createUserOptions = &CreateUserOptions{
+	Options: Options{
+		Action: string(util.CreateUserOp),
+	},
+}
 
 var CreateUserCmd = &cobra.Command{
 	Use:   "createuser",
@@ -44,25 +82,30 @@ lorryctl  createuser --username xxx --password xxx
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(createUserOptions.lorryAddr)
+		err := createUserOptions.Init()
 		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
+			fmt.Printf("%s init failed: %s\n", createUserOptions.Action, err.Error())
+			os.Exit(1)
 		}
 
-		err = lorryClient.CreateUser(context.TODO(), createUserOptions.userName, createUserOptions.password, "")
+		err = createUserOptions.Validate()
 		if err != nil {
-			fmt.Printf("create user failed: %v\n", err)
-			return
+			fmt.Printf("%s validate failed: %s\n", createUserOptions.Action, err.Error())
+			os.Exit(1)
 		}
-		fmt.Printf("create user success")
+
+		err = createUserOptions.Run()
+		if err != nil {
+			fmt.Printf("%s executing failed: %s\n", createUserOptions.Action, err.Error())
+			os.Exit(1)
+		}
 	},
 }
 
 func init() {
 	CreateUserCmd.Flags().StringVarP(&createUserOptions.userName, "username", "", "", "The name of user to create")
 	CreateUserCmd.Flags().StringVarP(&createUserOptions.password, "password", "", "", "The password of user to create")
-	CreateUserCmd.Flags().StringVarP(&createUserOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
+	CreateUserCmd.Flags().StringVarP(&createUserOptions.roleName, "rolename", "", "", "The role of user to create")
 	CreateUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(CreateUserCmd)
