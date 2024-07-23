@@ -77,7 +77,7 @@ const (
 	KBEnvBuiltinHandler  = "KB_BUILTIN_HANDLER"
 	KBEnvActionCommands  = "KB_ACTION_COMMANDS"
 	KBEnvCronJobs        = "KB_CRON_JOBS"
-	KBEnvCharacterType   = "KB_SERVICE_CHARACTER_TYPE"
+	KBEnvEngineType      = "KB_ENGINE_TYPE"
 	KBEnvServiceUser     = "KB_SERVICE_USER"
 	KBEnvServicePassword = "KB_SERVICE_PASSWORD"
 	KBEnvLorryHTTPPort   = "LORRY_HTTP_PORT"

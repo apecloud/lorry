@@ -1,5 +1,5 @@
-# Build the syncer image
-# includes syncer and configurations.
+# Build the lorry image
+# includes lorry and configurations.
 
 ## docker buildx build injected build-args:
 #BUILDPLATFORM — matches the current machine. (e.g. linux/amd64)

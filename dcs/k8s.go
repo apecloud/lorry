@@ -44,7 +44,6 @@ import (
 	appsv1alpha1 "github.com/apecloud/kubeblocks/apis/apps/v1alpha1"
 
 	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/engines/models"
 	k8s "github.com/apecloud/lorry/util/kubernetes"
 )
 
@@ -102,15 +101,7 @@ func NewKubernetesStore() (*KubernetesStore, error) {
 		return nil, errors.New("KB_NAMESPACE must be set")
 	}
 
-	characterType := viper.GetString(constant.KBEnvCharacterType)
-	if viper.IsSet(constant.KBEnvBuiltinHandler) {
-		characterType = viper.GetString(constant.KBEnvBuiltinHandler)
-	}
 	isLeaderClusterWide := false
-	if characterType == string(models.Oceanbase) {
-		isLeaderClusterWide = true
-	}
-
 	store := &KubernetesStore{
 		ctx:                 ctx,
 		clusterName:         clusterName,

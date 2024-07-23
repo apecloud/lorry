@@ -129,12 +129,12 @@ func InitDBManager(configDir string) error {
 		ctrl.Log.Info(constant.KBEnvWorkloadType + " ENV not set")
 	}
 
-	characterType := viper.GetString(constant.KBEnvCharacterType)
+	engineType := viper.GetString(constant.KBEnvEngineType)
 	if viper.IsSet(constant.KBEnvBuiltinHandler) {
 		workloadType = ""
-		characterType = viper.GetString(constant.KBEnvBuiltinHandler)
+		engineType = viper.GetString(constant.KBEnvBuiltinHandler)
 	}
-	if characterType == "" {
+	if engineType == "" {
 		return errors.New("engine typpe not set")
 	}
 
@@ -143,10 +143,10 @@ func InitDBManager(configDir string) error {
 		return errors.Wrap(err, "fatal error config file")
 	}
 
-	properties := GetProperties(characterType)
-	newFunc := GetManagerNewFunc(characterType, workloadType)
+	properties := GetProperties(engineType)
+	newFunc := GetManagerNewFunc(engineType, workloadType)
 	if newFunc == nil {
-		return errors.Errorf("no db manager for characterType %s and workloadType %s", characterType, workloadType)
+		return errors.Errorf("no db manager for characterType %s and workloadType %s", engineType, workloadType)
 	}
 	mgr, err := newFunc(properties)
 	if err != nil {
