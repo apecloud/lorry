@@ -22,7 +22,6 @@ package ctl
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -31,7 +30,7 @@ import (
 )
 
 type GetRoleOptions struct {
-	Options
+	OptionsBase
 }
 
 func (options *GetRoleOptions) Run() error {
@@ -55,7 +54,7 @@ func (options *GetRoleOptions) Run() error {
 }
 
 var getRoleOptions = &GetRoleOptions{
-	Options: Options{
+	OptionsBase: OptionsBase{
 		Action: "getrole",
 	},
 }
@@ -67,25 +66,7 @@ var GetRoleCmd = &cobra.Command{
 lorry getrole 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		err := getRoleOptions.Init()
-		if err != nil {
-			fmt.Printf("getrole init failed: %v\n", err.Error())
-			os.Exit(1)
-		}
-
-		err = getRoleOptions.Validate()
-		if err != nil {
-			fmt.Printf("getrole validate failed: %v\n", err.Error())
-			os.Exit(1)
-		}
-
-		err = getRoleOptions.Run()
-		if err != nil {
-			fmt.Printf("executing getrole failed: %s\n", err.Error())
-			os.Exit(1)
-		}
-	},
+	Run:  CmdRunner(getRoleOptions),
 }
 
 func init() {

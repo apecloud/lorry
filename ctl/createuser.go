@@ -21,8 +21,6 @@ package ctl
 
 import (
 	"context"
-	"fmt"
-	"os"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -33,7 +31,7 @@ import (
 )
 
 type CreateUserOptions struct {
-	Options
+	OptionsBase
 	userName string
 	password string
 	roleName string
@@ -69,7 +67,7 @@ func (options *CreateUserOptions) Run() error {
 }
 
 var createUserOptions = &CreateUserOptions{
-	Options: Options{
+	OptionsBase: OptionsBase{
 		Action: string(util.CreateUserOp),
 	},
 }
@@ -81,25 +79,7 @@ var CreateUserCmd = &cobra.Command{
 lorryctl  createuser --username xxx --password xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		err := createUserOptions.Init()
-		if err != nil {
-			fmt.Printf("%s init failed: %s\n", createUserOptions.Action, err.Error())
-			os.Exit(1)
-		}
-
-		err = createUserOptions.Validate()
-		if err != nil {
-			fmt.Printf("%s validate failed: %s\n", createUserOptions.Action, err.Error())
-			os.Exit(1)
-		}
-
-		err = createUserOptions.Run()
-		if err != nil {
-			fmt.Printf("%s executing failed: %s\n", createUserOptions.Action, err.Error())
-			os.Exit(1)
-		}
-	},
+	Run:  CmdRunner(createUserOptions),
 }
 
 func init() {

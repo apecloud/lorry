@@ -21,20 +21,30 @@ package ctl
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
 
 	"github.com/apecloud/lorry/operations"
 )
 
-// Options represents the cmd configuration parameters.
-type Options struct {
+type Options interface {
+	Init() error
+	Validate() error
+	Run() error
+	GetAction() string
+}
+
+// OptionsBase represents the cmd configuration parameters.
+type OptionsBase struct {
 	Action  string
 	Request *operations.OpsRequest
 	operations.Operation
 }
 
-func (options *Options) Init() error {
+func (options *OptionsBase) Init() error {
 	ops := operations.Operations()
 
 	operation, ok := ops[options.Action]
@@ -49,10 +59,36 @@ func (options *Options) Init() error {
 	return nil
 }
 
-func (options *Options) Validate() error {
-	return options.PreCheck(context.Background(), nil)
+func (options *OptionsBase) Validate() error {
+	return options.PreCheck(context.Background(), options.Request)
 }
 
-func (options *Options) Run() error {
+func (options *OptionsBase) Run() error {
 	return nil
+}
+
+func (options *OptionsBase) GetAction() string {
+	return options.Action
+}
+
+func CmdRunner(options Options) func(cmd *cobra.Command, args []string) {
+	return func(cmd *cobra.Command, args []string) {
+		err := options.Init()
+		if err != nil {
+			fmt.Printf("%s init failed: %s\n", options.GetAction(), err.Error())
+			os.Exit(1)
+		}
+
+		err = options.Validate()
+		if err != nil {
+			fmt.Printf("%s validate failed: %s\n", options.GetAction(), err.Error())
+			os.Exit(1)
+		}
+
+		err = options.Run()
+		if err != nil {
+			fmt.Printf("%s executing failed: %s\n", options.GetAction(), err.Error())
+			os.Exit(1)
+		}
+	}
 }
