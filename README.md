@@ -17,8 +17,6 @@ spec:
     image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:1.0.0
     command:
     - lorry
-    - --port
-    - "3501"
     - service
     env:
     - name: KB_POD_NAME
