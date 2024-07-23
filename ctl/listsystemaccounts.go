@@ -23,14 +23,45 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
-var (
-	lorryAddr1 string
-)
+type ListSystemAccountsOptions struct {
+	OptionsBase
+}
+
+func (options *ListSystemAccountsOptions) Validate() error {
+	return options.Operation.PreCheck(context.Background(), nil)
+}
+
+func (options *ListSystemAccountsOptions) Run() error {
+	listSystemAccounts, ok := options.Operation.(*user.ListSystemAccounts)
+	if !ok {
+		return errors.Errorf("%s operation not found", options.Action)
+	}
+
+	users, err := listSystemAccounts.DBManager.ListSystemAccounts(context.Background())
+	if err != nil {
+		return errors.Wrap(err, "executing listSystemAccounts failed")
+	}
+	fmt.Printf("list users:\n")
+	for _, u := range users {
+		fmt.Println("-------------------------")
+		fmt.Printf("name: %s\n", u.UserName)
+		fmt.Printf("role: %s\n", u.RoleName)
+	}
+	return nil
+}
+
+var listSystemAccountsOptions = &ListSystemAccountsOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.ListSystemAccountsOp),
+	},
+}
 
 var ListSystemAccountsCmd = &cobra.Command{
 	Use:   "listsystemaccounts",
@@ -39,30 +70,10 @@ var ListSystemAccountsCmd = &cobra.Command{
 lorryctl  listsystemaccounts 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(lorryAddr1)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		systemaccounts, err := lorryClient.ListSystemAccounts(context.TODO())
-		if err != nil {
-			fmt.Printf("list systemaccounts failed: %v\n", err)
-			return
-		}
-		fmt.Printf("list systemaccounts:\n")
-		for _, m := range systemaccounts {
-			fmt.Println("-------------------------")
-			for k, v := range m {
-				fmt.Printf("%s: %v\n", k, v)
-			}
-		}
-	},
+	Run:  CmdRunner(listSystemAccountsOptions),
 }
 
 func init() {
-	ListSystemAccountsCmd.Flags().StringVarP(&lorryAddr1, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	ListSystemAccountsCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(ListSystemAccountsCmd)

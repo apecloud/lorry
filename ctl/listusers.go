@@ -23,14 +23,49 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
 var (
 	lorryAddr string
 )
+
+type ListUsersOptions struct {
+	OptionsBase
+}
+
+func (options *ListUsersOptions) Validate() error {
+	return options.Operation.PreCheck(context.Background(), nil)
+}
+
+func (options *ListUsersOptions) Run() error {
+	listUsers, ok := options.Operation.(*user.ListUsers)
+	if !ok {
+		return errors.Errorf("%s operation not found", options.Action)
+	}
+
+	users, err := listUsers.DBManager.ListUsers(context.Background())
+	if err != nil {
+		return errors.Wrap(err, "executing listUsers failed")
+	}
+	fmt.Printf("list users:\n")
+	for _, u := range users {
+		fmt.Println("-------------------------")
+		fmt.Printf("name: %s\n", u.UserName)
+		fmt.Printf("role: %s\n", u.RoleName)
+	}
+	return nil
+}
+
+var listUsersOptions = &ListUsersOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.ListUsersOp),
+	},
+}
 
 var ListUsersCmd = &cobra.Command{
 	Use:   "listusers",
@@ -39,26 +74,7 @@ var ListUsersCmd = &cobra.Command{
 lorryctl  listusers 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(lorryAddr)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		users, err := lorryClient.ListUsers(context.TODO())
-		if err != nil {
-			fmt.Printf("list users failed: %v\n", err)
-			return
-		}
-		fmt.Printf("list users:\n")
-		for _, m := range users {
-			fmt.Println("-------------------------")
-			for k, v := range m {
-				fmt.Printf("%s: %v\n", k, v)
-			}
-		}
-	},
+	Run:  CmdRunner(listUsersOptions),
 }
 
 func init() {

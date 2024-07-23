@@ -21,20 +21,52 @@ package ctl
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/client"
+	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/lorry/operations/user"
+	"github.com/apecloud/lorry/util"
 )
 
 type GrantUserRoleOptions struct {
-	lorryAddr string
-	userName  string
-	roleName  string
+	OptionsBase
+	userName string
+	roleName string
 }
 
-var grantUserRoleOptions = &GrantUserRoleOptions{}
+func (options *GrantUserRoleOptions) Validate() error {
+	parameters := map[string]any{
+		"userName": options.userName,
+		"roleName": options.roleName,
+	}
+
+	req := &operations.OpsRequest{
+		Parameters: parameters,
+	}
+	options.Request = req
+	return options.Operation.PreCheck(context.Background(), req)
+}
+
+func (options *GrantUserRoleOptions) Run() error {
+	grantUser, ok := options.Operation.(*user.GrantRole)
+	if !ok {
+		return errors.New("grantUser operation not found")
+	}
+
+	_, err := grantUser.Do(context.Background(), options.Request)
+	if err != nil {
+		return errors.Wrap(err, "executing grantUser failed")
+	}
+	return nil
+}
+
+var grantUserRoleOptions = &GrantUserRoleOptions{
+	OptionsBase: OptionsBase{
+		Action: string(util.GrantUserRoleOp),
+	},
+}
 
 var GrantUserRoleCmd = &cobra.Command{
 	Use:   "grant-role",
@@ -43,26 +75,12 @@ var GrantUserRoleCmd = &cobra.Command{
 lorryctl  grant-role --username xxx --rolename xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		lorryClient, err := client.NewHTTPClientWithURL(grantUserRoleOptions.lorryAddr)
-		if err != nil {
-			fmt.Printf("new lorry http client failed: %v\n", err)
-			return
-		}
-
-		err = lorryClient.GrantUserRole(context.TODO(), grantUserRoleOptions.userName, grantUserRoleOptions.roleName)
-		if err != nil {
-			fmt.Printf("grant user role failed: %v\n", err)
-			return
-		}
-		fmt.Printf("grant user role success")
-	},
+	Run:  CmdRunner(grantUserRoleOptions),
 }
 
 func init() {
 	GrantUserRoleCmd.Flags().StringVarP(&grantUserRoleOptions.userName, "username", "", "", "The name of user to grant")
 	GrantUserRoleCmd.Flags().StringVarP(&grantUserRoleOptions.roleName, "rolename", "", "", "The name of role to grant")
-	GrantUserRoleCmd.Flags().StringVarP(&grantUserRoleOptions.lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	GrantUserRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
 	RootCmd.AddCommand(GrantUserRoleCmd)

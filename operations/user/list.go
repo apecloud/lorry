@@ -34,7 +34,7 @@ import (
 
 type ListUsers struct {
 	operations.Base
-	dbManager engines.DBManager
+	DBManager engines.DBManager
 	logger    logr.Logger
 }
 
@@ -52,7 +52,7 @@ func (s *ListUsers) Init(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
 	}
-	s.dbManager = dbManager
+	s.DBManager = dbManager
 	s.logger = ctrl.Log.WithName("listusers")
 	return nil
 }
@@ -64,7 +64,7 @@ func (s *ListUsers) IsReadonly(ctx context.Context) bool {
 func (s *ListUsers) Do(ctx context.Context, req *operations.OpsRequest) (*operations.OpsResponse, error) {
 	resp := operations.NewOpsResponse(util.ListUsersOp)
 
-	result, err := s.dbManager.ListUsers(ctx)
+	result, err := s.DBManager.ListUsers(ctx)
 	if err != nil {
 		s.logger.Info("executing listusers error", "error", err)
 		return resp, err

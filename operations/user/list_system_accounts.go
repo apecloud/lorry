@@ -34,7 +34,7 @@ import (
 
 type ListSystemAccounts struct {
 	operations.Base
-	dbManager engines.DBManager
+	DBManager engines.DBManager
 	logger    logr.Logger
 }
 
@@ -52,7 +52,7 @@ func (s *ListSystemAccounts) Init(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "get manager failed")
 	}
-	s.dbManager = dbManager
+	s.DBManager = dbManager
 	s.logger = ctrl.Log.WithName("listSystemAccounts")
 	return nil
 }
@@ -64,7 +64,7 @@ func (s *ListSystemAccounts) IsReadonly(ctx context.Context) bool {
 func (s *ListSystemAccounts) Do(ctx context.Context, req *operations.OpsRequest) (*operations.OpsResponse, error) {
 	resp := operations.NewOpsResponse(util.ListSystemAccountsOp)
 
-	result, err := s.dbManager.ListSystemAccounts(ctx)
+	result, err := s.DBManager.ListSystemAccounts(ctx)
 	if err != nil {
 		s.logger.Info("executing ListSystemAccounts error", "error", err)
 		return resp, err
