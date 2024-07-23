@@ -41,7 +41,7 @@ func NewMongodbClient(ctx context.Context, config *Config) (*mongo.Client, error
 			Password: config.Password,
 			Username: config.Username,
 		}).
-		SetWriteConcern(writeconcern.New(writeconcern.WMajority(), writeconcern.J(true))).
+		SetWriteConcern(writeconcern.Majority()).
 		SetReadPreference(readpref.Primary()).
 		SetDirect(config.Direct)
 
@@ -85,7 +85,7 @@ func NewLocalUnauthClient(ctx context.Context) (*mongo.Client, error) {
 
 	opts := options.Client().
 		SetHosts(config.Hosts).
-		SetWriteConcern(writeconcern.New(writeconcern.WMajority(), writeconcern.J(true))).
+		SetWriteConcern(writeconcern.Majority()).
 		SetReadPreference(readpref.Primary()).
 		SetDirect(config.Direct)
 

@@ -25,8 +25,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/kubeblocks/pkg/lorry/util"
 	"github.com/apecloud/lorry/operations/replica"
+	"github.com/apecloud/lorry/util"
 )
 
 type LeaveOptions struct {

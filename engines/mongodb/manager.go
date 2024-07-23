@@ -70,7 +70,7 @@ func NewManager(properties engines.Properties) (engines.DBManager, error) {
 			Password: config.Password,
 			Username: config.Username,
 		}).
-		SetWriteConcern(writeconcern.New(writeconcern.WMajority(), writeconcern.J(true))).
+		SetWriteConcern(writeconcern.Majority()).
 		SetReadPreference(readpref.Primary()).
 		SetDirect(config.Direct)
 
@@ -390,7 +390,7 @@ func (mgr *Manager) GetReplSetClientWithHosts(ctx context.Context, hosts []strin
 			Password: config.Password,
 			Username: config.Username,
 		}).
-		SetWriteConcern(writeconcern.New(writeconcern.WMajority(), writeconcern.J(true))).
+		SetWriteConcern(writeconcern.Majority()).
 		SetReadPreference(readpref.Primary()).
 		SetDirect(false)
 

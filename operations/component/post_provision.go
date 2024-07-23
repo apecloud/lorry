@@ -24,7 +24,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/apecloud/lorry/engines/models"
@@ -35,7 +34,6 @@ import (
 
 type PostProvision struct {
 	operations.Base
-	logger  logr.Logger
 	Timeout time.Duration
 	Command []string
 }
