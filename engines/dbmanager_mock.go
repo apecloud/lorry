@@ -29,10 +29,11 @@ import (
 	context "context"
 	reflect "reflect"
 
-	dcs "github.com/apecloud/lorry/dcs"
-	models "github.com/apecloud/lorry/engines/models"
 	logr "github.com/go-logr/logr"
 	gomock "github.com/golang/mock/gomock"
+
+	dcs "github.com/apecloud/lorry/dcs"
+	models "github.com/apecloud/lorry/engines/models"
 )
 
 // MockDBManager is a mock of DBManager interface.
