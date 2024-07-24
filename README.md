@@ -14,7 +14,7 @@ spec:
     image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-server:8.0.30
     ...
   - name: lorry
-    image: registry.cn-hangzhou.aliyuncs.com/xuriwuyun/lorry:latest
+    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:latest
     command:
     - lorry
     - service
@@ -76,7 +76,7 @@ spec:
   lifecycleActions:
     roleProbe:
       exec:
-        image: registry.cn-hangzhou.aliyuncs.com/xuriwuyun/lorry:latest
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:latest
         command:
           - lorry
           - getrole
