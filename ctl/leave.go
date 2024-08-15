@@ -56,7 +56,7 @@ var LeaveCmd = &cobra.Command{
 	Use:   "leavemember",
 	Short: "execute a leave member request.",
 	Example: `
-lorry leavemember
+dbctl leavemember
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(leaveOptions),

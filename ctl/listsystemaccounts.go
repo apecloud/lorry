@@ -67,7 +67,7 @@ var ListSystemAccountsCmd = &cobra.Command{
 	Use:   "listsystemaccounts",
 	Short: "list system accounts.",
 	Example: `
-lorry listsystemaccounts 
+dbctl listsystemaccounts 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(listSystemAccountsOptions),

@@ -56,7 +56,7 @@ var JoinCmd = &cobra.Command{
 	Use:   "joinmember",
 	Short: "execute a join member request.",
 	Example: `
-lorry joinmember
+dbctl joinmember
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(joinOptions),
