@@ -41,8 +41,10 @@ const (
 	params           = "params"
 	adminDatabase    = "admin"
 
-	defaultTimeout = 5 * time.Second
-	defaultDBPort  = 27017
+	defaultTimeout  = 5 * time.Second
+	defaultDBPort   = 27017
+	RootUserEnv     = "MONGODB_USER"
+	RootPasswordEnv = "MONGODB_PASSWORD"
 )
 
 type Config struct {
@@ -87,10 +89,15 @@ func NewConfig(properties map[string]string) (*Config, error) {
 
 	if viper.IsSet(constant.KBEnvServiceUser) {
 		config.Username = viper.GetString(constant.KBEnvServiceUser)
+	} else if viper.IsSet(RootUserEnv) {
+		config.Username = viper.GetString(RootUserEnv)
+
 	}
 
 	if viper.IsSet(constant.KBEnvServicePassword) {
 		config.Password = viper.GetString(constant.KBEnvServicePassword)
+	} else if viper.IsSet(RootPasswordEnv) {
+		config.Password = viper.GetString(RootPasswordEnv)
 	}
 
 	if viper.IsSet(constant.KBEnvClusterCompName) {
