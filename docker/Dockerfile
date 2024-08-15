@@ -1,5 +1,5 @@
-# Build the lorry image
-# includes lorry and configurations.
+# Build the dbctl image
+# includes dbctl and configurations.
 
 ## docker buildx build injected build-args:
 #BUILDPLATFORM — matches the current machine. (e.g. linux/amd64)
@@ -35,7 +35,7 @@ RUN --mount=type=bind,target=. \
 RUN --mount=type=bind,target=. \
     --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
-    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="${LD_FLAGS}" -a -o /out/lorry cmd/lorry/main.go
+    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="${LD_FLAGS}" -a -o /out/dbctl cmd/dbctl/main.go
 
 # Use alpine with tag 20230329 is corresponding to "edge" tag (latest release to date is 3.18) as of 20230625
 FROM docker.io/alpine:edge as dist
@@ -43,6 +43,6 @@ ARG APK_MIRROR
 
 # copy files
 COPY config/ /config/
-COPY --from=builder /out/lorry /bin
+COPY --from=builder /out/dbctl /bin
 
 USER 65532:65532
