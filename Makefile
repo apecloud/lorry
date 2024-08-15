@@ -14,7 +14,7 @@
 ################################################################################
 # Variables                                                                    #
 ################################################################################
-APP_NAME = lorry
+APP_NAME = dbctl
 VERSION ?= 0.1.0-alpha.0
 GITHUB_PROXY ?=
 INIT_ENV ?= false
@@ -108,7 +108,7 @@ help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 .PHONY: all
-all: lorry ## Make all cmd binaries.
+all: dbctl ## Make all cmd binaries.
 
 ##@ Development
 
@@ -180,17 +180,17 @@ goimports: goimportstool ## Run goimports against code.
 	$(GOIMPORTS) -local github.com/apecloud/lorry -w $$(git ls-files|grep "\.go$$")
 
 
-.PHONY: lorry
-lorry:  build-checks ## Build lorry binary.
-	$(GO) build -tags $(BUILD_TAGS) -ldflags=${LD_FLAGS} -o bin/lorry ./cmd/lorry/main.go
+.PHONY: dbctl
+dbctl:  build-checks ## Build dbctl binary.
+	$(GO) build -tags $(BUILD_TAGS) -ldflags=${LD_FLAGS} -o bin/dbctl ./cmd/dbctl/main.go
 
 .PHONY: run
 run: fmt vet 
-	$(GO) run ./cmd/lorry/main.go --config-path ./config/components service
+	$(GO) run ./cmd/dbctl/main.go --config-path ./config/components service
 
 # Run with Delve for development purposes 
 # Delve is a debugger for the Go programming language. More info: https://github.com/go-delve/delve
-GO_PACKAGE=./cmd/lorry/main.go
+GO_PACKAGE=./cmd/dbctl/main.go
 ARGUMENTS=
 DEBUG_PORT=2345
 run-delve: manifests fmt vet  ## Run Delve debugger.
