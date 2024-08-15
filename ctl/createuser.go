@@ -76,7 +76,7 @@ var CreateUserCmd = &cobra.Command{
 	Use:   "createuser",
 	Short: "create user.",
 	Example: `
-lorry  createuser --username xxx --password xxx 
+dbctl createuser --username xxx --password xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(createUserOptions),

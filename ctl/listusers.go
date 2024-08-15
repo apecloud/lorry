@@ -71,7 +71,7 @@ var ListUsersCmd = &cobra.Command{
 	Use:   "listusers",
 	Short: "list normal users.",
 	Example: `
-lorry listusers 
+dbctl listusers 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(listUsersOptions),

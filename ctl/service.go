@@ -33,9 +33,9 @@ import (
 
 var ServiceCmd = &cobra.Command{
 	Use:   "service",
-	Short: "Run Lorry as a daemon and provide api service.",
+	Short: "Run dbctl as a daemon and provide api service.",
 	Example: `
-lorry service
+dbctl service
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {

@@ -69,7 +69,7 @@ var DeleteUserCmd = &cobra.Command{
 	Use:   "deleteuser",
 	Short: "delete user.",
 	Example: `
-lorry  deleteuser --username xxx 
+dbctl deleteuser --username xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(deleteUserOptions),

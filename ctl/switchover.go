@@ -75,7 +75,7 @@ var SwitchCmd = &cobra.Command{
 	Use:   "switchover",
 	Short: "execute a switchover request.",
 	Example: `
-lorry switchover --primary xxx --candidate xxx
+dbctl switchover --primary xxx --candidate xxx
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(switchoverOptions),
