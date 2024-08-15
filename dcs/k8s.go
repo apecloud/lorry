@@ -43,8 +43,8 @@ import (
 
 	appsv1alpha1 "github.com/apecloud/kubeblocks/apis/apps/v1alpha1"
 
-	"github.com/apecloud/lorry/constant"
-	k8s "github.com/apecloud/lorry/util/kubernetes"
+	"github.com/apecloud/dbctl/constant"
+	k8s "github.com/apecloud/dbctl/util/kubernetes"
 )
 
 type KubernetesStore struct {

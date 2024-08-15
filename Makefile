@@ -177,7 +177,7 @@ endif
 
 .PHONY: goimports
 goimports: goimportstool ## Run goimports against code.
-	$(GOIMPORTS) -local github.com/apecloud/lorry -w $$(git ls-files|grep "\.go$$")
+	$(GOIMPORTS) -local github.com/apecloud/dbctl -w $$(git ls-files|grep "\.go$$")
 
 
 .PHONY: dbctl

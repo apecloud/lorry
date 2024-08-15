@@ -22,8 +22,8 @@ package polardbx
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/mysql"
 )
 
 const (

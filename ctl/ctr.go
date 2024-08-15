@@ -36,8 +36,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	kzap "sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/register"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/register"
 )
 
 const cliVersionTemplateString = "CLI version: %s \nRuntime version: %s\n"

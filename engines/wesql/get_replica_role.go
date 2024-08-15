@@ -25,8 +25,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/mysql"
 )
 
 func (mgr *Manager) GetReplicaRole(ctx context.Context, _ *dcs.Cluster) (string, error) {

@@ -25,7 +25,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/engines"
 )
 
 var _ = Describe("Nebula Engine", func() {

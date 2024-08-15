@@ -31,8 +31,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/engines"
 )
 
 func TestQuery(t *testing.T) {

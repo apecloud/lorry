@@ -27,9 +27,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
 
-	"github.com/apecloud/lorry/engines/models"
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/engines/models"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/util"
 )
 
 const (

@@ -26,7 +26,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations/replica"
+	"github.com/apecloud/dbctl/operations/replica"
 )
 
 type GetRoleOptions struct {

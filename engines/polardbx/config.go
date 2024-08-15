@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package polardbx
 
 import (
-	"github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/engines/mysql"
 )
 
 type Config struct {

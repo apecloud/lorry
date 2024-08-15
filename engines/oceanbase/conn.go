@@ -26,8 +26,8 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/pkg/errors"
 
-	"github.com/apecloud/lorry/dcs"
-	mysqlengine "github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/dcs"
+	mysqlengine "github.com/apecloud/dbctl/engines/mysql"
 )
 
 // GetDBConnWithMember retrieves a database connection for a specific member of a cluster.

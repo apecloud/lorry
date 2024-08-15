@@ -28,11 +28,11 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/models"
-	"github.com/apecloud/lorry/engines/postgres"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/models"
+	"github.com/apecloud/dbctl/engines/postgres"
 )
 
 func MockDatabase(t *testing.T) (*Manager, pgxmock.PgxPoolIface, error) {

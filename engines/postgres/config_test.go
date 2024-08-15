@@ -25,8 +25,8 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 func TestGetPostgresqlMetadata(t *testing.T) {

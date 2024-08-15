@@ -27,7 +27,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 
-	lorryctl "github.com/apecloud/lorry/ctl"
+	lorryctl "github.com/apecloud/dbctl/ctl"
 )
 
 func genMarkdownTreeForOverview(cmd *cobra.Command, dir string) error {

@@ -24,8 +24,8 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/engines"
 )
 
 const (

@@ -25,8 +25,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/util"
 )
 
 type dataDump struct {

@@ -25,9 +25,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/operations/user"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/operations/user"
+	"github.com/apecloud/dbctl/util"
 )
 
 type DescribeUserOptions struct {

@@ -24,7 +24,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/dbctl/operations"
 )
 
 func TestUserInfoParser(t *testing.T) {

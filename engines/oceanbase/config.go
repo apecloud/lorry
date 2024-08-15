@@ -28,8 +28,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/dcs"
-	mysqlengine "github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/dcs"
+	mysqlengine "github.com/apecloud/dbctl/engines/mysql"
 )
 
 type Config struct {

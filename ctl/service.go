@@ -27,8 +27,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/httpserver"
-	opsregister "github.com/apecloud/lorry/operations/register"
+	"github.com/apecloud/dbctl/httpserver"
+	opsregister "github.com/apecloud/dbctl/operations/register"
 )
 
 var ServiceCmd = &cobra.Command{

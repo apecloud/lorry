@@ -26,7 +26,7 @@ import (
 	"github.com/spf13/viper"
 	ctlruntime "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/constant"
+	"github.com/apecloud/dbctl/constant"
 )
 
 var pingerLogger = ctlruntime.Log.WithName("pinger")

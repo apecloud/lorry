@@ -29,7 +29,7 @@ import (
 	fasthttprouter "github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 
-	"github.com/apecloud/lorry/operations"
+	"github.com/apecloud/dbctl/operations"
 )
 
 // Server is an interface for the Lorry HTTP server.

@@ -26,7 +26,7 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 const (

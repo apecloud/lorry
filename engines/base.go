@@ -27,9 +27,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 type DBManagerBase struct {

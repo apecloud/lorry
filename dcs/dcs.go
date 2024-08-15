@@ -22,7 +22,7 @@ package dcs
 import (
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/constant"
+	"github.com/apecloud/dbctl/constant"
 )
 
 type DCS interface {

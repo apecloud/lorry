@@ -37,8 +37,8 @@ import (
 	"github.com/spf13/cast"
 	"golang.org/x/exp/slices"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
 )
 
 var (

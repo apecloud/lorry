@@ -24,7 +24,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/engines"
 )
 
 var (
