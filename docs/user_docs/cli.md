@@ -1,6 +1,6 @@
 ---
-title: KubeBlocks Lorry CLI Overview
-description: KubeBlocks Lorry CLI overview
+title: KubeBlocks dbctl Overview
+description: KubeBlocks dbctl overview
 sidebar_position: 1
 ---
 
