@@ -130,7 +130,7 @@ func InitDBManager(configDir string) error {
 	}
 
 	engineType := viper.GetString(constant.KBEnvEngineType)
-	if viper.IsSet(constant.KBEnvBuiltinHandler) {
+	if viper.IsSet(constant.KBEnvBuiltinHandler) && engineType == "" {
 		workloadType = ""
 		engineType = viper.GetString(constant.KBEnvBuiltinHandler)
 	}
