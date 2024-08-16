@@ -80,5 +80,6 @@ In this mode, dbctl completes the corresponding task and then exits immediately.
         image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/dbctl:0.1.2
         command:
           - dbctl
+          - mysql
           - getrole
 ```
