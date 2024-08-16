@@ -71,7 +71,7 @@ When using dbctl in daemon mode, action definitions can be implemented by callin
 ```
 
 ## Temporary Task
-In this mode, dbctl completes the corresponding task and then exits immediately. It is suitable for use as a tool and can be called directly in actions. For a list of supported actions and their usage, please refer to the documentation in the docs directory[docs](docs/user_docs/cli.md.md).
+In this mode, dbctl completes the corresponding task and then exits immediately. It is suitable for use as a tool and can be called directly in actions. For a list of supported actions and their usage, please refer to the documentation in the [docs](docs/user_docs/cli.md).
 
 ```
   lifecycleActions:
