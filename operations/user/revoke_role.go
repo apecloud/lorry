@@ -27,10 +27,10 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/register"
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/register"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/util"
 )
 
 type RevokeRole struct {

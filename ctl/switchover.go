@@ -25,9 +25,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/operations/replica"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/operations/replica"
+	"github.com/apecloud/dbctl/util"
 )
 
 type SwitchOptions struct {
@@ -87,5 +87,5 @@ func init() {
 	SwitchCmd.Flags().BoolVarP(&switchoverOptions.force, "force", "f", false, "force to swithover if failed")
 	SwitchCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(SwitchCmd)
+	DatabaseCmd.AddCommand(SwitchCmd)
 }

@@ -24,7 +24,7 @@ import (
 	"github.com/IBM/sarama"
 	"github.com/cenkalti/backoff/v4"
 
-	"github.com/apecloud/lorry/engines/kafka/thirdparty"
+	"github.com/apecloud/dbctl/engines/kafka/thirdparty"
 )
 
 type consumer struct {

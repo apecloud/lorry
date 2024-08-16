@@ -30,7 +30,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 // Query is equivalent to QueryWithHost(ctx, sql, ""), query itself.

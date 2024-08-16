@@ -27,8 +27,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/httpserver"
-	opsregister "github.com/apecloud/lorry/operations/register"
+	"github.com/apecloud/dbctl/httpserver"
+	opsregister "github.com/apecloud/dbctl/operations/register"
 )
 
 var ServiceCmd = &cobra.Command{
@@ -57,5 +57,5 @@ func init() {
 	httpserver.InitFlags(ServiceCmd.Flags())
 	ServiceCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(ServiceCmd)
+	DatabaseCmd.AddCommand(ServiceCmd)
 }

@@ -27,8 +27,8 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/constant"
-	utilconfig "github.com/apecloud/lorry/util/config"
+	"github.com/apecloud/dbctl/constant"
+	utilconfig "github.com/apecloud/dbctl/util/config"
 )
 
 const (

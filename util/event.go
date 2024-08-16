@@ -37,7 +37,7 @@ import (
 
 	workloads "github.com/apecloud/kubeblocks/apis/workloads/v1alpha1"
 
-	"github.com/apecloud/lorry/constant"
+	"github.com/apecloud/dbctl/constant"
 )
 
 var logger = ctlruntime.Log.WithName("event")

@@ -18,7 +18,7 @@ package mysql
 import (
 	"database/sql"
 
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 var connectionPoolCache = make(map[string]*sql.DB)

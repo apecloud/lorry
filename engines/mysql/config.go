@@ -33,7 +33,7 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/constant"
+	"github.com/apecloud/dbctl/constant"
 )
 
 const (

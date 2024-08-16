@@ -24,7 +24,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/apecloud/lorry/util/config"
+	"github.com/apecloud/dbctl/util/config"
 )
 
 type Settings struct {

@@ -28,9 +28,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/valyala/fasthttp"
 
-	"github.com/apecloud/lorry/engines/models"
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/engines/models"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/util"
 )
 
 func mockServer(t *testing.T) *server {

@@ -29,10 +29,10 @@ import (
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/models"
-	"github.com/apecloud/lorry/engines/postgres"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/models"
+	"github.com/apecloud/dbctl/engines/postgres"
 )
 
 type Manager struct {

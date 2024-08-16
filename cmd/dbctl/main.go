@@ -25,7 +25,7 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/automaxprocs/maxprocs"
 
-	"github.com/apecloud/lorry/ctl"
+	"github.com/apecloud/dbctl/ctl"
 )
 
 func init() {

@@ -26,9 +26,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/apecloud/lorry/engines/register"
-	"github.com/apecloud/lorry/operations"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/engines/register"
+	"github.com/apecloud/dbctl/operations"
+	"github.com/apecloud/dbctl/util"
 )
 
 type Lock struct {

@@ -35,8 +35,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
 )
 
 const (

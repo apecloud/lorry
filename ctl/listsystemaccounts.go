@@ -26,8 +26,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations/user"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations/user"
+	"github.com/apecloud/dbctl/util"
 )
 
 type ListSystemAccountsOptions struct {
@@ -76,5 +76,5 @@ dbctl listsystemaccounts
 func init() {
 	ListSystemAccountsCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(ListSystemAccountsCmd)
+	DatabaseCmd.AddCommand(ListSystemAccountsCmd)
 }

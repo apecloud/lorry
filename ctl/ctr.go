@@ -23,8 +23,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
-	"path/filepath"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -35,9 +33,6 @@ import (
 	"k8s.io/klog/v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	kzap "sigs.k8s.io/controller-runtime/pkg/log/zap"
-
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/register"
 )
 
 const cliVersionTemplateString = "CLI version: %s \nRuntime version: %s\n"
@@ -76,17 +71,6 @@ dbctl command line interface`,
 		}
 		ctrl.SetLogger(kzap.New(kopts...))
 
-		// Initialize DCS (Distributed Control System)
-		err = dcs.InitStore()
-		if err != nil {
-			return errors.Wrap(err, "DCS initialize failed")
-		}
-
-		// Initialize DB Manager
-		err = register.InitDBManager(configDir)
-		if err != nil {
-			return errors.Wrap(err, "DB manager initialize failed")
-		}
 		return nil
 	},
 
@@ -99,7 +83,7 @@ dbctl command line interface`,
 	},
 }
 
-type lorryVersion struct {
+type dbctlVersion struct {
 	CliVersion     string `json:"Cli version"`
 	RuntimeVersion string `json:"Runtime version"`
 }
@@ -107,13 +91,13 @@ type lorryVersion struct {
 var (
 	cliVersion       string
 	versionFlag      bool
-	lorryVer         lorryVersion
-	lorryRuntimePath string
+	dbctlVer         dbctlVersion
+	dbctlRuntimePath string
 )
 
 // Execute adds all child commands to the root command.
 func Execute(cliVersion, apiVersion string) {
-	lorryVer = lorryVersion{
+	dbctlVer = dbctlVersion{
 		CliVersion:     cliVersion,
 		RuntimeVersion: apiVersion,
 	}
@@ -129,19 +113,19 @@ func Execute(cliVersion, apiVersion string) {
 }
 
 func setVersion() {
-	template := fmt.Sprintf(cliVersionTemplateString, lorryVer.CliVersion, lorryVer.RuntimeVersion)
+	template := fmt.Sprintf(cliVersionTemplateString, dbctlVer.CliVersion, dbctlVer.RuntimeVersion)
 	RootCmd.SetVersionTemplate(template)
 }
 
 func printVersion() {
-	fmt.Printf(cliVersionTemplateString, lorryVer.CliVersion, lorryVer.RuntimeVersion)
+	fmt.Printf(cliVersionTemplateString, dbctlVer.CliVersion, dbctlVer.RuntimeVersion)
 }
 
 func initConfig() {
-	// err intentionally ignored since lorry may not yet be installed.
+	// err intentionally ignored since dbctl may not yet be installed.
 	runtimeVer := GetRuntimeVersion()
 
-	lorryVer = lorryVersion{
+	dbctlVer = dbctlVersion{
 		// Set in Execute() method in this file before initConfig() is called by cmd.Execute().
 		CliVersion:     cliVersion,
 		RuntimeVersion: strings.ReplaceAll(runtimeVer, "\n", ""),
@@ -152,19 +136,19 @@ func init() {
 	klog.InitFlags(flag.CommandLine)
 	opts.BindFlags(flag.CommandLine)
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
-	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/config/lorry/components/", "Lorry default config directory for builtin type")
+	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/config/dbctl/components/", "dbctl default config directory for builtin type")
 	RootCmd.PersistentFlags().BoolVar(&disableDNSChecker, "disable-dns-checker", false, "disable dns checker, for test&dev")
-	RootCmd.PersistentFlags().StringVarP(&lorryRuntimePath, "kb-runtime-dir", "", "/kubeblocks/", "The directory of kubeblocks binaries")
+	RootCmd.PersistentFlags().StringVarP(&dbctlRuntimePath, "tools-dir", "", "/tools/", "The directory of tools binaries")
 	RootCmd.PersistentFlags().AddFlagSet(pflag.CommandLine)
 }
 
-// GetRuntimeVersion returns the version for the local lorry runtime.
+// GetRuntimeVersion returns the version for the local dbctl runtime.
 func GetRuntimeVersion() string {
-	lorryCMD := filepath.Join(lorryRuntimePath, "lorry")
+	// dbctlCMD := filepath.Join(dbctlRuntimePath, "dbctl")
 
-	out, err := exec.Command(lorryCMD, "--version").Output()
-	if err != nil {
-		return "n/a\n"
-	}
-	return string(out)
+	// out, err := exec.Command(dbctlCMD, "--version").Output()
+	// if err != nil {
+	// 	return "n/a\n"
+	// }
+	return string("v0.1.0")
 }

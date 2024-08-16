@@ -25,7 +25,7 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 type MockManager struct {

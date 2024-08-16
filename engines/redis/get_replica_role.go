@@ -24,8 +24,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 func (mgr *Manager) GetReplicaRole(ctx context.Context, _ *dcs.Cluster) (string, error) {

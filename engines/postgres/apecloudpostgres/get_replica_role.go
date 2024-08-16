@@ -22,7 +22,7 @@ package apecloudpostgres
 import (
 	"context"
 
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 func (mgr *Manager) GetReplicaRole(ctx context.Context, cluster *dcs.Cluster) (string, error) {

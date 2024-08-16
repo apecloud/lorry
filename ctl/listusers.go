@@ -26,8 +26,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations/user"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations/user"
+	"github.com/apecloud/dbctl/util"
 )
 
 var (
@@ -81,5 +81,5 @@ func init() {
 	ListUsersCmd.Flags().StringVarP(&lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	ListUsersCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(ListUsersCmd)
+	DatabaseCmd.AddCommand(ListUsersCmd)
 }

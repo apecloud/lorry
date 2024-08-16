@@ -21,7 +21,7 @@ import (
 	"github.com/IBM/sarama"
 	"github.com/go-logr/logr"
 
-	"github.com/apecloud/lorry/engines/kafka/thirdparty"
+	"github.com/apecloud/dbctl/engines/kafka/thirdparty"
 )
 
 // Kafka allows reading/writing to a Kafka consumer group.

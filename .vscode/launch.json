@@ -12,12 +12,12 @@
             "program": "${fileDirname}"
         },
         {
-            "name": "Launch lorry",
+            "name": "Launch dbctl",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/cmd/lorry/main.go",
-            "cwd": "${workspaceRoot}",
+            "program": "${workspaceFolder}/cmd/dbctl/main.go",
+            //"cwd": "${workspaceRoot}",
             "env": {
                 // "KB_ROLECHECK_DELAY": "30", 
                 // "KB_POD_NAME": "myob-ob-bundle-0-0", 
@@ -35,10 +35,10 @@
             },
             // "args": ["--app-id","batch-sdk", "--dapr-http-port", "3502","--dapr-grpc-port","54212",
             // "--components-path","./config/probe/components","--config","./config/probe/config.yaml","--dapr-graceful-shutdown-seconds","0","--log-level=debug"]
-            // "args": ["--config-path", "./config/lorry/components",  "service"]
-            //"args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "leavemember"]
-            "args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "joinmember"]
-            //"args": ["--config-path", "./config/lorry/components", "--zap-log-level=debug", "-v=1", "switchover", "--primary", "mongo2-mongodb-2"]
+            // "args": ["--config-path", "./config/dbctl/components",  "service"]
+            //"args": ["--config-path", "./config/dbctl/components", "--zap-log-level=debug", "-v=1", "leavemember"]
+            "args": ["--config-path", "./config/dbctl/components", "--zap-log-level=debug", "-v=1", "mysql", "joinmember"]
+            //"args": ["--config-path", "./config/dbctl/components", "--zap-log-level=debug", "-v=1", "switchover", "--primary", "mongo2-mongodb-2"]
         },
 
     ]

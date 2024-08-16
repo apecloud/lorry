@@ -38,8 +38,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/dcs"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
 )
 
 const (

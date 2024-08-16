@@ -25,8 +25,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 func TestManager_GetRole(t *testing.T) {

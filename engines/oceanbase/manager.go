@@ -32,10 +32,10 @@ import (
 	"github.com/spf13/viper"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/mysql"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/mysql"
+	"github.com/apecloud/dbctl/util"
 )
 
 const (

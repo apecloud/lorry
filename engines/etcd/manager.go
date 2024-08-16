@@ -28,7 +28,7 @@ import (
 	v3 "go.etcd.io/etcd/client/v3"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/engines"
 )
 
 const (

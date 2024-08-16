@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package register
 
 import (
-	"github.com/apecloud/lorry/operations"
-	_ "github.com/apecloud/lorry/operations/component"
-	_ "github.com/apecloud/lorry/operations/replica"
-	_ "github.com/apecloud/lorry/operations/sql"
-	_ "github.com/apecloud/lorry/operations/user"
-	_ "github.com/apecloud/lorry/operations/volume"
+	"github.com/apecloud/dbctl/operations"
+	_ "github.com/apecloud/dbctl/operations/component"
+	_ "github.com/apecloud/dbctl/operations/replica"
+	_ "github.com/apecloud/dbctl/operations/sql"
+	_ "github.com/apecloud/dbctl/operations/user"
+	_ "github.com/apecloud/dbctl/operations/volume"
 )
 
 func Register(name string, op operations.Operation) error {

@@ -30,10 +30,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/constant"
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
-	"github.com/apecloud/lorry/engines/mysql"
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
+	"github.com/apecloud/dbctl/engines/mysql"
 )
 
 const (

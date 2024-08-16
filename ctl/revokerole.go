@@ -25,8 +25,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/apecloud/lorry/operations/user"
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/operations/user"
+	"github.com/apecloud/dbctl/util"
 )
 
 type RevokeUserRoleOptions struct {
@@ -73,5 +73,5 @@ func init() {
 	RevokeUserRoleCmd.Flags().StringVarP(&revokeUserRoleOptions.roleName, "rolename", "", "", "The name of role to revoke")
 	RevokeUserRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(RevokeUserRoleCmd)
+	DatabaseCmd.AddCommand(RevokeUserRoleCmd)
 }

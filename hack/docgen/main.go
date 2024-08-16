@@ -27,7 +27,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 
-	lorryctl "github.com/apecloud/lorry/ctl"
+	lorryctl "github.com/apecloud/dbctl/ctl"
 )
 
 func genMarkdownTreeForOverview(cmd *cobra.Command, dir string) error {
@@ -98,7 +98,7 @@ func main() {
 	}
 
 	fmt.Println("Scanning CLI docs rootPath: ", rootPath)
-	ctl := lorryctl.RootCmd
+	ctl := lorryctl.DatabaseCmd
 	ctl.Long = fmt.Sprintf("```\n%s\n```", ctl.Long)
 
 	err := doc.GenMarkdownTree(ctl, rootPath)

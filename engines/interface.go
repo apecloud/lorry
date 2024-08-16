@@ -24,8 +24,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 type DBManager interface {

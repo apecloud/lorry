@@ -22,7 +22,7 @@ package operations
 import (
 	"time"
 
-	"github.com/apecloud/lorry/util"
+	"github.com/apecloud/dbctl/util"
 )
 
 // OpsRequest is the request for Operation

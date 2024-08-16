@@ -1,4 +1,4 @@
-module github.com/apecloud/lorry
+module github.com/apecloud/dbctl
 
 go 1.22.0
 

@@ -26,7 +26,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/apecloud/lorry/engines/models"
+	"github.com/apecloud/dbctl/engines/models"
 )
 
 const (

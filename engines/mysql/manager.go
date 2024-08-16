@@ -31,8 +31,8 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/apecloud/lorry/dcs"
-	"github.com/apecloud/lorry/engines"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines"
 )
 
 type Manager struct {
