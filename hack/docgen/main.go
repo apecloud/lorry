@@ -31,7 +31,7 @@ import (
 )
 
 func genMarkdownTreeForOverview(cmd *cobra.Command, dir string) error {
-	filename := filepath.Join(dir, "cli.md")
+	filename := filepath.Join(dir, "dbctl.md")
 	f, err := os.Create(filename)
 	if err != nil {
 		return err
