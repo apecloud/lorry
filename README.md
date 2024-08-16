@@ -1,10 +1,10 @@
-# Lorry
-Lorry是原KubeBlocks中提供命令执行通道的服务，提供了多种wellknown数据库引擎的action实现，比如apecloud-MySQL、MySQL、Redis、PostgreSQL、MongoDB等等。对于Lorry已经支持的数据库引擎，在做addon接入时，可以声明Lorry作为engines plugin，快速接入KubeBlocks。
+# dbctl
+dbctl is a service that provides command execution channels, originally found in KubeBlocks. It offers implementations of actions for various well-known database engines, such as apecloud-MySQL, MySQL, Redis, PostgreSQL, MongoDB, and others. For the database engines supported by dbctl, when integrating addons, you can declare dbctl as an engines plugin, enabling quick integration with KubeBlocks.
 
-Lorry本身提供两中运行模式：守护进程模式和临时任务模式，可以根据业务场景，自行选择适合的运行方式。
-## 守护进程模式
-该模式下lorry已常驻进程存在，以APIServer方式对外提供服务，可以理解为engines plugin的一种实现形态。
-KubeBlocks本身对engines plugin的形态不做限制，可以以sidecarCar、container守护进程或其它形态运行。Lorry目前默认采用localhost方式与DB进程通信，所以该模式下，建议使用sidecar方式部署Lorry，部署模版：
+dbctl itself provides two running modes: daemon mode and temporary task mode. You can choose the appropriate mode based on your business scenario.
+
+## Daemon Mode
+In this mode, dbctl runs as a daemon process and provides API services. This can be treated as one form of implementing the engines plugin. KubeBlocks does not impose restrictions on the form of engines plugins; they can run as sidecars, container daemons, or other forms. Currently, dbctl uses the localhost address to communicate with the database processes by default. Therefore, in this mode, it is recommended to deploy dbctl using the sidecar method, with the deployment template as follows:
 ```
 apiVersion: v1
 kind: Pod
@@ -13,10 +13,11 @@ spec:
   - name: mysql
     image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-server:8.0.30
     ...
-  - name: lorry
-    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:latest
+  - name: dbctl
+    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/dbctl:0.1.2
     command:
-    - lorry
+    - dbctl
+    - mysql
     - service
     env:
     - name: KB_POD_NAME
@@ -58,7 +59,7 @@ spec:
       value: mysql
 ```
 
-当使用lorry，且以守护进程运行时，action定义可以使用调用lorry api的方式实现：
+When using dbctl in daemon mode, action definitions can be implemented by calling the dbctl API:
 ```
   lifecycleActions:
     roleProbe:
@@ -69,16 +70,15 @@ spec:
           - curl -X GET -H 'Content-Type: application/json' 'http://127.0.0.1:3501/v1.0/getrole'
 ```
 
-## 临时任务
-该模式下，lorry执行完成相应任务后会立即退出，适合作为一个工具使用，可以action中直接调用。对于已支持的action列表及使用可参考docs目录下的文档。
+## Temporary Task
+In this mode, dbctl completes the corresponding task and then exits immediately. It is suitable for use as a tool and can be called directly in actions. For a list of supported actions and their usage, please refer to the documentation in the docs directory.
 
 ```
   lifecycleActions:
     roleProbe:
       exec:
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/lorry:latest
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/dbctl:0.1.2
         command:
-          - lorry
+          - dbctl
           - getrole
 ```
-              
