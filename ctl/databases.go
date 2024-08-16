@@ -20,16 +20,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package ctl
 
 import (
-	"github.com/apecloud/dbctl/constant"
-	"github.com/apecloud/dbctl/dcs"
-	"github.com/apecloud/dbctl/engines/register"
+	"fmt"
+
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/register"
+)
+
+const (
+	use = "mongodb"
 )
 
 var DatabaseCmd = &cobra.Command{
-	Use:     "mongodb",
+	Use:     use,
 	Aliases: []string{"mysql", "postgresql"},
 	Short:   "specify database.",
 	Example: `
@@ -37,8 +44,12 @@ dbctl mongodb createuser --username root --password password
   `,
 	Args: cobra.MinimumNArgs(0),
 	PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
-		calledAs := cmd.CalledAs()
-		viper.SetDefault(constant.KBEnvEngineType, calledAs)
+		parent := cmd.Parent()
+		if use == parent.Name() {
+			calledAs := parent.CalledAs()
+			fmt.Println("calledAs: ", calledAs)
+			viper.SetDefault(constant.KBEnvEngineType, calledAs)
+		}
 		// Initialize DCS (Distributed Control System)
 		err := dcs.InitStore()
 		if err != nil {
