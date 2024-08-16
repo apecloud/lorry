@@ -27,7 +27,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 
-	lorryctl "github.com/apecloud/dbctl/ctl"
+	dbctl "github.com/apecloud/dbctl/ctl"
 )
 
 func genMarkdownTreeForOverview(cmd *cobra.Command, dir string) error {
@@ -54,7 +54,7 @@ sidebar_position: 1
 		}
 
 		// write parent command name
-		link := strings.ReplaceAll(cmd.Name()+" "+c.Name(), " ", "_")
+		link := strings.ReplaceAll("dbctl_"+cmd.Name()+" "+c.Name(), " ", "_")
 		_, err = io.WriteString(f, fmt.Sprintf("## [%s](%s.md)\n\n", c.Name(), link))
 		if err != nil {
 			return err
@@ -98,7 +98,7 @@ func main() {
 	}
 
 	fmt.Println("Scanning CLI docs rootPath: ", rootPath)
-	ctl := lorryctl.DatabaseCmd
+	ctl := dbctl.DatabaseCmd
 	ctl.Long = fmt.Sprintf("```\n%s\n```", ctl.Long)
 
 	err := doc.GenMarkdownTree(ctl, rootPath)
@@ -129,7 +129,7 @@ func main() {
 		}
 
 		firstLine := lines[0]
-		if !strings.HasPrefix(firstLine, "## lorryctl") {
+		if !strings.HasPrefix(firstLine, "## dbctl") {
 			return nil
 		}
 
@@ -143,14 +143,14 @@ func main() {
 		if lastIdx == 0 {
 			return nil
 		}
-		lines[lastIdx] = "#### Go Back to [LorryCtl Overview](cli.md) Homepage.\n"
+		lines[lastIdx] = "#### Go Back to [dbctl Overview](dbctl.md) Homepage.\n"
 
 		// update the title
 		lines[0] = "---"
 		title := strings.TrimPrefix(firstLine, "## ")
 		newLines := []string{"---", "title: " + title}
 		for idx, line := range lines {
-			if strings.Contains(line, "[kbcli](kbcli.md)") {
+			if strings.Contains(line, "[dbctl](dbctl.md)") {
 				lines[idx] = ""
 				continue
 			}

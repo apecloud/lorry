@@ -4,73 +4,73 @@ description: KubeBlocks dbctl overview
 sidebar_position: 1
 ---
 
-## [createuser](database_createuser.md)
+## [createuser](dbctl_database_createuser.md)
 
 create user.
 
 
 
-## [deleteuser](database_deleteuser.md)
+## [deleteuser](dbctl_database_deleteuser.md)
 
 delete user.
 
 
 
-## [describeuser](database_describeuser.md)
+## [describeuser](dbctl_database_describeuser.md)
 
 describe user.
 
 
 
-## [getrole](database_getrole.md)
+## [getrole](dbctl_database_getrole.md)
 
 get role of the replica.
 
 
 
-## [grant-role](database_grant-role.md)
+## [grant-role](dbctl_database_grant-role.md)
 
 grant user role.
 
 
 
-## [joinmember](database_joinmember.md)
+## [joinmember](dbctl_database_joinmember.md)
 
 execute a join member request.
 
 
 
-## [leavemember](database_leavemember.md)
+## [leavemember](dbctl_database_leavemember.md)
 
 execute a leave member request.
 
 
 
-## [listsystemaccounts](database_listsystemaccounts.md)
+## [listsystemaccounts](dbctl_database_listsystemaccounts.md)
 
 list system accounts.
 
 
 
-## [listusers](database_listusers.md)
+## [listusers](dbctl_database_listusers.md)
 
 list normal users.
 
 
 
-## [revoke-role](database_revoke-role.md)
+## [revoke-role](dbctl_database_revoke-role.md)
 
 revoke user role.
 
 
 
-## [service](database_service.md)
+## [service](dbctl_database_service.md)
 
 Run dbctl as a daemon and provide api service.
 
 
 
-## [switchover](database_switchover.md)
+## [switchover](dbctl_database_switchover.md)
 
 execute a switchover request.
 
