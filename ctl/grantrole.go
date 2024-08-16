@@ -83,5 +83,5 @@ func init() {
 	GrantUserRoleCmd.Flags().StringVarP(&grantUserRoleOptions.roleName, "rolename", "", "", "The name of role to grant")
 	GrantUserRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(GrantUserRoleCmd)
+	DatabaseCmd.AddCommand(GrantUserRoleCmd)
 }

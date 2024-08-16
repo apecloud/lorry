@@ -88,5 +88,5 @@ func init() {
 	CreateUserCmd.Flags().StringVarP(&createUserOptions.roleName, "rolename", "", "", "The role of user to create")
 	CreateUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(CreateUserCmd)
+	DatabaseCmd.AddCommand(CreateUserCmd)
 }

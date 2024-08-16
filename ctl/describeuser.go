@@ -80,5 +80,5 @@ func init() {
 	DescribeUserCmd.Flags().StringVarP(&describeUserOptions.userName, "username", "", "", "The name of user to describe")
 	DescribeUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(DescribeUserCmd)
+	DatabaseCmd.AddCommand(DescribeUserCmd)
 }

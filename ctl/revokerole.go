@@ -73,5 +73,5 @@ func init() {
 	RevokeUserRoleCmd.Flags().StringVarP(&revokeUserRoleOptions.roleName, "rolename", "", "", "The name of role to revoke")
 	RevokeUserRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(RevokeUserRoleCmd)
+	DatabaseCmd.AddCommand(RevokeUserRoleCmd)
 }

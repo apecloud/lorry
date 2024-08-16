@@ -65,5 +65,5 @@ dbctl joinmember
 func init() {
 	JoinCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(JoinCmd)
+	DatabaseCmd.AddCommand(JoinCmd)
 }

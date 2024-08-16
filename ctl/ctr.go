@@ -23,8 +23,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
-	"path/filepath"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -35,9 +33,6 @@ import (
 	"k8s.io/klog/v2"
 	ctrl "sigs.k8s.io/controller-runtime"
 	kzap "sigs.k8s.io/controller-runtime/pkg/log/zap"
-
-	"github.com/apecloud/dbctl/dcs"
-	"github.com/apecloud/dbctl/engines/register"
 )
 
 const cliVersionTemplateString = "CLI version: %s \nRuntime version: %s\n"
@@ -76,17 +71,6 @@ dbctl command line interface`,
 		}
 		ctrl.SetLogger(kzap.New(kopts...))
 
-		// Initialize DCS (Distributed Control System)
-		err = dcs.InitStore()
-		if err != nil {
-			return errors.Wrap(err, "DCS initialize failed")
-		}
-
-		// Initialize DB Manager
-		err = register.InitDBManager(configDir)
-		if err != nil {
-			return errors.Wrap(err, "DB manager initialize failed")
-		}
 		return nil
 	},
 
@@ -154,17 +138,17 @@ func init() {
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/config/dbctl/components/", "dbctl default config directory for builtin type")
 	RootCmd.PersistentFlags().BoolVar(&disableDNSChecker, "disable-dns-checker", false, "disable dns checker, for test&dev")
-	RootCmd.PersistentFlags().StringVarP(&dbctlRuntimePath, "kb-runtime-dir", "", "/kubeblocks/", "The directory of kubeblocks binaries")
+	RootCmd.PersistentFlags().StringVarP(&dbctlRuntimePath, "tools-dir", "", "/tools/", "The directory of tools binaries")
 	RootCmd.PersistentFlags().AddFlagSet(pflag.CommandLine)
 }
 
 // GetRuntimeVersion returns the version for the local dbctl runtime.
 func GetRuntimeVersion() string {
-	dbctlCMD := filepath.Join(dbctlRuntimePath, "dbctl")
+	// dbctlCMD := filepath.Join(dbctlRuntimePath, "dbctl")
 
-	out, err := exec.Command(dbctlCMD, "--version").Output()
-	if err != nil {
-		return "n/a\n"
-	}
-	return string(out)
+	// out, err := exec.Command(dbctlCMD, "--version").Output()
+	// if err != nil {
+	// 	return "n/a\n"
+	// }
+	return string("v0.1.0")
 }

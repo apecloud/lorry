@@ -76,5 +76,5 @@ dbctl listsystemaccounts
 func init() {
 	ListSystemAccountsCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(ListSystemAccountsCmd)
+	DatabaseCmd.AddCommand(ListSystemAccountsCmd)
 }

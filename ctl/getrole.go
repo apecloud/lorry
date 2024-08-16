@@ -72,5 +72,5 @@ dbctl getrole
 func init() {
 	GetRoleCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(GetRoleCmd)
+	DatabaseCmd.AddCommand(GetRoleCmd)
 }

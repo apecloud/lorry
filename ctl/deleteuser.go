@@ -79,5 +79,5 @@ func init() {
 	DeleteUserCmd.Flags().StringVarP(&deleteUserOptions.userName, "username", "", "", "The name of user to delete")
 	DeleteUserCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(DeleteUserCmd)
+	DatabaseCmd.AddCommand(DeleteUserCmd)
 }

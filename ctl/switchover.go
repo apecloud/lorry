@@ -87,5 +87,5 @@ func init() {
 	SwitchCmd.Flags().BoolVarP(&switchoverOptions.force, "force", "f", false, "force to swithover if failed")
 	SwitchCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(SwitchCmd)
+	DatabaseCmd.AddCommand(SwitchCmd)
 }

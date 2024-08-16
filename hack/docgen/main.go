@@ -98,7 +98,7 @@ func main() {
 	}
 
 	fmt.Println("Scanning CLI docs rootPath: ", rootPath)
-	ctl := lorryctl.RootCmd
+	ctl := lorryctl.DatabaseCmd
 	ctl.Long = fmt.Sprintf("```\n%s\n```", ctl.Long)
 
 	err := doc.GenMarkdownTree(ctl, rootPath)

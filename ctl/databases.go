@@ -20,42 +20,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package ctl
 
 import (
-	"os"
-	"os/signal"
-	"syscall"
-
+	"github.com/apecloud/dbctl/constant"
+	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/register"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-
-	"github.com/apecloud/dbctl/httpserver"
-	opsregister "github.com/apecloud/dbctl/operations/register"
+	"github.com/spf13/viper"
 )
 
-var ServiceCmd = &cobra.Command{
-	Use:   "service",
-	Short: "Run dbctl as a daemon and provide api service.",
+var DatabaseCmd = &cobra.Command{
+	Use:     "mongodb",
+	Aliases: []string{"mysql", "postgresql"},
+	Short:   "specify database.",
 	Example: `
-dbctl service
+dbctl mongodb createuser --username root --password password
   `,
 	Args: cobra.MinimumNArgs(0),
-	Run: func(cmd *cobra.Command, args []string) {
-		// start HTTP Server
-		ops := opsregister.Operations()
-		httpServer := httpserver.NewServer(ops)
-		err := httpServer.StartNonBlocking()
+	PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
+		calledAs := cmd.CalledAs()
+		viper.SetDefault(constant.KBEnvEngineType, calledAs)
+		// Initialize DCS (Distributed Control System)
+		err := dcs.InitStore()
 		if err != nil {
-			panic(errors.Wrap(err, "HTTP server initialize failed"))
+			return errors.Wrap(err, "DCS initialize failed")
 		}
 
-		stop := make(chan os.Signal, 1)
-		signal.Notify(stop, syscall.SIGTERM, os.Interrupt)
-		<-stop
+		// Initialize DB Manager
+		err = register.InitDBManager(configDir)
+		if err != nil {
+			return errors.Wrap(err, "DB manager initialize failed")
+		}
+		return nil
+	},
+
+	Run: func(cmd *cobra.Command, _ []string) {
+		_ = cmd.Help()
 	},
 }
 
 func init() {
-	httpserver.InitFlags(ServiceCmd.Flags())
-	ServiceCmd.Flags().BoolP("help", "h", false, "Print this help message")
-
-	DatabaseCmd.AddCommand(ServiceCmd)
+	RootCmd.AddCommand(DatabaseCmd)
 }

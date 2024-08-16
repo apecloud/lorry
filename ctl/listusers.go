@@ -81,5 +81,5 @@ func init() {
 	ListUsersCmd.Flags().StringVarP(&lorryAddr, "lorry-addr", "", "http://localhost:3501/v1.0/", "The addr of lorry to request")
 	ListUsersCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(ListUsersCmd)
+	DatabaseCmd.AddCommand(ListUsersCmd)
 }

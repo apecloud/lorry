@@ -65,5 +65,5 @@ dbctl leavemember
 func init() {
 	LeaveCmd.Flags().BoolP("help", "h", false, "Print this help message")
 
-	RootCmd.AddCommand(LeaveCmd)
+	DatabaseCmd.AddCommand(LeaveCmd)
 }
