@@ -70,7 +70,7 @@ var DescribeUserCmd = &cobra.Command{
 	Use:   "describeuser",
 	Short: "describe user.",
 	Example: `
-dbctl describeuser --username xxx 
+dbctl database describeuser --username xxx 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(describeUserOptions),

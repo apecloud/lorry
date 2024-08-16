@@ -63,7 +63,7 @@ var GetRoleCmd = &cobra.Command{
 	Use:   "getrole",
 	Short: "get role of the replica.",
 	Example: `
-dbctl getrole 
+dbctl database getrole 
   `,
 	Args: cobra.MinimumNArgs(0),
 	Run:  CmdRunner(getRoleOptions),
