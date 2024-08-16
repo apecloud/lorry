@@ -4,73 +4,73 @@ description: KubeBlocks Lorry CLI overview
 sidebar_position: 1
 ---
 
-## [createuser](lorry_createuser.md)
+## [createuser](database_createuser.md)
 
 create user.
 
 
 
-## [deleteuser](lorry_deleteuser.md)
+## [deleteuser](database_deleteuser.md)
 
 delete user.
 
 
 
-## [describeuser](lorry_describeuser.md)
+## [describeuser](database_describeuser.md)
 
 describe user.
 
 
 
-## [getrole](lorry_getrole.md)
+## [getrole](database_getrole.md)
 
 get role of the replica.
 
 
 
-## [grant-role](lorry_grant-role.md)
+## [grant-role](database_grant-role.md)
 
 grant user role.
 
 
 
-## [joinmember](lorry_joinmember.md)
+## [joinmember](database_joinmember.md)
 
 execute a join member request.
 
 
 
-## [leavemember](lorry_leavemember.md)
+## [leavemember](database_leavemember.md)
 
 execute a leave member request.
 
 
 
-## [listsystemaccounts](lorry_listsystemaccounts.md)
+## [listsystemaccounts](database_listsystemaccounts.md)
 
 list system accounts.
 
 
 
-## [listusers](lorry_listusers.md)
+## [listusers](database_listusers.md)
 
 list normal users.
 
 
 
-## [revoke-role](lorry_revoke-role.md)
+## [revoke-role](database_revoke-role.md)
 
 revoke user role.
 
 
 
-## [service](lorry_service.md)
+## [service](database_service.md)
 
-Run Lorry as a daemon and provide api service.
+Run dbctl as a daemon and provide api service.
 
 
 
-## [switchover](lorry_switchover.md)
+## [switchover](database_switchover.md)
 
 execute a switchover request.
 

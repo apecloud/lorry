@@ -34,12 +34,10 @@ import (
 	"github.com/apecloud/dbctl/engines/register"
 )
 
-const (
-	use = "mongodb"
-)
+const ()
 
 var DatabaseCmd = &cobra.Command{
-	Use:     use,
+	Use:     "database",
 	Aliases: models.GetEngineTypeListStr(),
 	Short:   "specify database.",
 	Example: `
@@ -51,6 +49,10 @@ dbctl mongodb createuser --username root --password password
 		// fmt.Println("commands: ", commands)
 		if len(commands) < 1 {
 			return errors.New("please specify a database subcommand")
+		}
+		dbType := commands[0]
+		if dbType == "database" {
+			return errors.New("please specify a database type supported by dbctl, the valid types are: " + strings.Join(models.GetEngineTypeListStr(), ", "))
 		}
 		viper.SetDefault(constant.KBEnvEngineType, commands[0])
 
