@@ -20,10 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package ctl
 
 import (
-	"fmt"
+	"os"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
 	"github.com/apecloud/dbctl/constant"
@@ -44,12 +46,13 @@ dbctl mongodb createuser --username root --password password
   `,
 	Args: cobra.MinimumNArgs(0),
 	PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
-		parent := cmd.Parent()
-		if use == parent.Name() {
-			calledAs := parent.CalledAs()
-			fmt.Println("calledAs: ", calledAs)
-			viper.SetDefault(constant.KBEnvEngineType, calledAs)
+		commands := stripFlags(os.Args[1:], cmd)
+		// fmt.Println("commands: ", commands)
+		if len(commands) < 1 {
+			return errors.New("please specify a database subcommand")
 		}
+		viper.SetDefault(constant.KBEnvEngineType, commands[0])
+
 		// Initialize DCS (Distributed Control System)
 		err := dcs.InitStore()
 		if err != nil {
@@ -71,4 +74,61 @@ dbctl mongodb createuser --username root --password password
 
 func init() {
 	RootCmd.AddCommand(DatabaseCmd)
+}
+
+func hasNoOptDefVal(name string, fs *pflag.FlagSet) bool {
+	flag := fs.Lookup(name)
+	if flag == nil {
+		return false
+	}
+	return flag.NoOptDefVal != ""
+}
+
+func shortHasNoOptDefVal(name string, fs *pflag.FlagSet) bool {
+	if len(name) == 0 {
+		return false
+	}
+
+	flag := fs.ShorthandLookup(name[:1])
+	if flag == nil {
+		return false
+	}
+	return flag.NoOptDefVal != ""
+}
+
+func stripFlags(args []string, c *cobra.Command) []string {
+	if len(args) == 0 {
+		return args
+	}
+
+	commands := []string{}
+	flags := c.Flags()
+
+Loop:
+	for len(args) > 0 {
+		s := args[0]
+		args = args[1:]
+		switch {
+		case s == "--":
+			// "--" terminates the flags
+			break Loop
+		case strings.HasPrefix(s, "--") && !strings.Contains(s, "=") && !hasNoOptDefVal(s[2:], flags):
+			// If '--flag arg' then
+			// delete arg from args.
+			fallthrough // (do the same as below)
+		case strings.HasPrefix(s, "-") && !strings.Contains(s, "=") && len(s) == 2 && !shortHasNoOptDefVal(s[1:], flags):
+			// If '-f arg' then
+			// delete 'arg' from args or break the loop if len(args) <= 1.
+			if len(args) <= 1 {
+				break Loop
+			} else {
+				args = args[1:]
+				continue
+			}
+		case s != "" && !strings.HasPrefix(s, "-"):
+			commands = append(commands, s)
+		}
+	}
+
+	return commands
 }
