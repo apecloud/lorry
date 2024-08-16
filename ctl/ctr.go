@@ -136,7 +136,7 @@ func init() {
 	klog.InitFlags(flag.CommandLine)
 	opts.BindFlags(flag.CommandLine)
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
-	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/config/dbctl/components/", "dbctl default config directory for builtin type")
+	RootCmd.PersistentFlags().StringVar(&configDir, "config-path", "/tools/config/dbctl/components/", "dbctl default config directory for builtin type")
 	RootCmd.PersistentFlags().BoolVar(&disableDNSChecker, "disable-dns-checker", false, "disable dns checker, for test&dev")
 	RootCmd.PersistentFlags().StringVarP(&dbctlRuntimePath, "tools-dir", "", "/tools/", "The directory of tools binaries")
 	RootCmd.PersistentFlags().AddFlagSet(pflag.CommandLine)

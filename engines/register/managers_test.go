@@ -30,7 +30,6 @@ import (
 
 	"github.com/apecloud/dbctl/constant"
 	"github.com/apecloud/dbctl/engines"
-	"github.com/apecloud/dbctl/engines/models"
 )
 
 const (
@@ -187,9 +186,6 @@ func TestInitDBManager(t *testing.T) {
 		return &engines.MockManager{}, nil
 	}
 	RegisterEngine(fakeCharacterType, "", fakeNewFunc, func() engines.ClusterCommands {
-		return nil
-	})
-	RegisterEngine(models.Custom, "", fakeNewFunc, func() engines.ClusterCommands {
 		return nil
 	})
 	t.Run("new func successfully", func(t *testing.T) {

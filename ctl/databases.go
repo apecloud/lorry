@@ -30,6 +30,7 @@ import (
 
 	"github.com/apecloud/dbctl/constant"
 	"github.com/apecloud/dbctl/dcs"
+	"github.com/apecloud/dbctl/engines/models"
 	"github.com/apecloud/dbctl/engines/register"
 )
 
@@ -39,7 +40,7 @@ const (
 
 var DatabaseCmd = &cobra.Command{
 	Use:     use,
-	Aliases: []string{"mysql", "postgresql"},
+	Aliases: models.GetEngineTypeListStr(),
 	Short:   "specify database.",
 	Example: `
 dbctl mongodb createuser --username root --password password

@@ -38,5 +38,33 @@ const (
 	Oceanbase          EngineType = "oceanbase"
 	Oracle             EngineType = "oracle"
 	OpenGauss          EngineType = "opengauss"
-	Custom             EngineType = "custom"
 )
+
+func GetEngineTypeList() []EngineType {
+	return []EngineType{
+		MySQL,
+		WeSQL,
+		PostgreSQL,
+		OfficialPostgreSQL,
+		ApecloudPostgreSQL,
+		Redis,
+		ETCD,
+		MongoDB,
+		Nebula,
+		PolarDBX,
+		PulsarBroker,
+		PulsarProxy,
+		FoxLake,
+		Oceanbase,
+		Oracle,
+		OpenGauss,
+	}
+}
+
+func GetEngineTypeListStr() []string {
+	var engineTypeStr []string
+	for _, engineType := range GetEngineTypeList() {
+		engineTypeStr = append(engineTypeStr, string(engineType))
+	}
+	return engineTypeStr
+}
