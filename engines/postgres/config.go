@@ -33,6 +33,8 @@ import (
 const (
 	ConnectionURLKey = "url"
 	DefaultPort      = 5432
+	EnvRootUser      = "POSTGRES_USER"
+	EnvRootPass      = "POSTGRES_PASSWORD"
 )
 
 type Config struct {
@@ -72,9 +74,14 @@ func NewConfig(properties map[string]string) (*Config, error) {
 
 	if viper.IsSet(constant.KBEnvServiceUser) {
 		config.Username = viper.GetString(constant.KBEnvServiceUser)
+	} else if viper.IsSet(EnvRootUser) {
+		config.Username = viper.GetString(EnvRootUser)
 	}
+
 	if viper.IsSet(constant.KBEnvServicePassword) {
 		config.Password = viper.GetString(constant.KBEnvServicePassword)
+	} else if viper.IsSet(EnvRootPass) {
+		config.Password = viper.GetString(EnvRootPass)
 	}
 
 	config.URL = config.GetConnectURLWithHost(config.Host)
