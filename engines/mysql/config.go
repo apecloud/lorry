@@ -59,6 +59,8 @@ const (
 const (
 	adminDatabase = "mysql"
 	defaultDBPort = 3306
+	EnvRootUser   = "MYSQL_ROOT_USER"
+	EnvRootPass   = "MYSQL_ROOT_PASSWORD"
 )
 
 type Config struct {
@@ -88,12 +90,16 @@ func NewConfig(properties map[string]string) (*Config, error) {
 
 	if viper.IsSet(constant.KBEnvServiceUser) {
 		config.Username = viper.GetString(constant.KBEnvServiceUser)
+	} else if viper.IsSet(EnvRootUser) {
+		config.Username = viper.GetString(EnvRootUser)
 	} else if username, ok := properties["username"]; ok {
 		config.Username = username
 	}
 
 	if viper.IsSet(constant.KBEnvServicePassword) {
 		config.Password = viper.GetString(constant.KBEnvServicePassword)
+	} else if viper.IsSet(EnvRootPass) {
+		config.Password = viper.GetString(EnvRootPass)
 	}
 
 	if viper.IsSet(constant.KBEnvServicePort) {
