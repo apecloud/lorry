@@ -32,6 +32,11 @@ import (
 	"github.com/apecloud/dbctl/engines"
 )
 
+const (
+	EnvRootUser   = "REDIS_DEFAULT_USER"
+	EnvRootPasswd = "REDIS_DEFAULT_PASSWORD"
+)
+
 var (
 	redisUser   = "default"
 	redisPasswd = ""
@@ -58,10 +63,14 @@ func NewManager(properties engines.Properties) (engines.DBManager, error) {
 
 	if viper.IsSet(constant.KBEnvServiceUser) {
 		redisUser = viper.GetString(constant.KBEnvServiceUser)
+	} else if viper.IsSet(EnvRootUser) {
+		redisUser = viper.GetString(EnvRootUser
 	}
 
 	if viper.IsSet(constant.KBEnvServicePassword) {
 		redisPasswd = viper.GetString(constant.KBEnvServicePassword)
+	} else if viper.IsSet(EnvRootPasswd) {
+		redisPasswd = viper.GetString(EnvRootPasswd)
 	}
 
 	managerBase, err := engines.NewDBManagerBase(logger)
