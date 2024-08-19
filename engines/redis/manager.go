@@ -64,7 +64,7 @@ func NewManager(properties engines.Properties) (engines.DBManager, error) {
 	if viper.IsSet(constant.KBEnvServiceUser) {
 		redisUser = viper.GetString(constant.KBEnvServiceUser)
 	} else if viper.IsSet(EnvRootUser) {
-		redisUser = viper.GetString(EnvRootUser
+		redisUser = viper.GetString(EnvRootUser)
 	}
 
 	if viper.IsSet(constant.KBEnvServicePassword) {
