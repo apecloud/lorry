@@ -36,6 +36,8 @@ type Config struct {
 	*mysqlengine.Config
 }
 
+const obServicePortEnv = "OB_SERVICE_PORT"
+
 var config *Config
 
 func NewConfig(properties map[string]string) (*Config, error) {
@@ -46,7 +48,13 @@ func NewConfig(properties map[string]string) (*Config, error) {
 	if mysqlConfig.Username == "" {
 		mysqlConfig.Username = "root"
 	}
+	if viper.IsSet(obServicePortEnv) {
+		mysqlConfig.Port = viper.GetString(obServicePortEnv)
+	} else {
+		mysqlConfig.Port = "2881"
+	}
 
+	mysqlConfig.Password = getRootPassword("")
 	config = &Config{
 		Config: mysqlConfig,
 	}

@@ -65,7 +65,7 @@ const (
 
 type Config struct {
 	URL             string
-	port            string
+	Port            string
 	Username        string
 	Password        string
 	pemPath         string
@@ -103,7 +103,7 @@ func NewConfig(properties map[string]string) (*Config, error) {
 	}
 
 	if viper.IsSet(constant.KBEnvServicePort) {
-		config.port = viper.GetString(constant.KBEnvServicePort)
+		config.Port = viper.GetString(constant.KBEnvServicePort)
 	}
 
 	if val, ok := properties[pemPathKey]; ok {
@@ -164,8 +164,8 @@ func (config *Config) GetLocalDBConn() (*sql.DB, error) {
 	mysqlConfig.Timeout = time.Second * 5
 	mysqlConfig.ReadTimeout = time.Second * 5
 	mysqlConfig.WriteTimeout = time.Second * 5
-	if config.port != "" {
-		mysqlConfig.Addr = "127.0.0.1:" + config.port
+	if config.Port != "" {
+		mysqlConfig.Addr = "127.0.0.1:" + config.Port
 	}
 	db, err := GetDBConnection(mysqlConfig.FormatDSN())
 	if err != nil {
