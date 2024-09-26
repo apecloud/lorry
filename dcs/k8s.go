@@ -93,7 +93,11 @@ func NewKubernetesStore() (*KubernetesStore, error) {
 
 	currentMemberName := os.Getenv(constant.KBEnvPodName)
 	if currentMemberName == "" {
-		return nil, errors.New(fmt.Sprintf("%s must be set", constant.KBEnvPodName))
+		var err error
+		currentMemberName, err = os.Hostname()
+		if err != nil {
+			return nil, errors.Wrap(err, "get hostname failed")
+		}
 	}
 
 	namespace := os.Getenv(constant.KBEnvNamespace)
